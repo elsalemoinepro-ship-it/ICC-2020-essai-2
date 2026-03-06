@@ -1,0 +1,2845 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Incoterms ICC 2020 — Exercices Interactives</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #ffffff;
+  --deep: #f4f6fa;
+  --mid: #e8eef7;
+  --steel: #d0ddef;
+  --ocean: #1565c0;
+  --sky: #1976d2;
+  --gold: #d4880a;
+  --amber: #b86f00;
+  --green: #2e7d32;
+  --red: #c62828;
+  --text: #1a1f2e;
+  --muted: #5a6a85;
+  --card: #ffffff;
+  --border: rgba(0,0,0,0.10);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  background: #f4f6fa;
+  color: var(--text);
+  font-family: 'Syne', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* BG */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: 
+    radial-gradient(ellipse 60% 40% at 10% 20%, rgba(21,101,192,0.04) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 60% at 90% 80%, rgba(212,136,10,0.03) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* HEADER */
+header {
+  position: relative;
+  z-index: 10;
+  padding: 3rem 2rem 2rem;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 1rem;
+  background: #ffffff;
+  box-shadow: 0 1px 0 var(--border);
+}
+
+.logo-area { flex: 1; }
+
+.eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--ocean);
+  margin-bottom: 0.5rem;
+}
+
+h1 {
+  font-size: clamp(1.8rem, 5vw, 3rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+}
+
+h1 em {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  color: var(--gold);
+  font-weight: 400;
+}
+
+.header-meta {
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin-top: 0.5rem;
+}
+
+.score-panel {
+  text-align: right;
+}
+
+.score-big {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--gold);
+  line-height: 1;
+}
+
+.score-lbl {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* PROGRESS */
+.progress-strip {
+  position: relative;
+  z-index: 10;
+  padding: 0.8rem 2rem;
+  background: #ffffff;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.p-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.p-bar {
+  flex: 1;
+  height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.p-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--ocean), var(--sky));
+  border-radius: 2px;
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 0%;
+}
+
+/* NAV TABS */
+nav {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  padding: 1.5rem 2rem 0;
+  gap: 0.25rem;
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+  background: #ffffff;
+}
+
+.tab {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.7rem 1.3rem;
+  border: 1px solid transparent;
+  border-bottom: none;
+  border-radius: 6px 6px 0 0;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.tab:hover { color: var(--text); background: rgba(0,0,0,0.04); }
+
+.tab.active {
+  border-color: var(--border);
+  background: #f4f6fa;
+  color: var(--sky);
+}
+
+/* MAIN */
+main {
+  position: relative;
+  z-index: 10;
+  padding: 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.section { display: none; }
+.section.active { display: block; }
+
+/* ===== VISUAL MAP ===== */
+.chain-title {
+  font-family: 'Instrument Serif', serif;
+  font-size: 1.5rem;
+  font-style: italic;
+  color: var(--gold);
+  margin-bottom: 0.4rem;
+}
+
+.chain-subtitle {
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin-bottom: 2rem;
+}
+
+.chain-wrap {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.5rem;
+  overflow-x: auto;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.chain {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  min-width: 700px;
+}
+
+.chain-node {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  position: relative;
+}
+
+.chain-node::after {
+  content: '→';
+  position: absolute;
+  right: -8px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--muted);
+  font-size: 1rem;
+  z-index: 2;
+}
+
+.chain-node:last-child::after { display: none; }
+
+.node-num {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border: 2px solid;
+  flex-shrink: 0;
+}
+
+.node-label {
+  font-size: 0.6rem;
+  text-align: center;
+  line-height: 1.3;
+  color: var(--muted);
+  max-width: 70px;
+}
+
+/* Color zones */
+.zone-seller .node-num { border-color: var(--sky); color: var(--sky); background: rgba(66,165,245,0.08); }
+.zone-transit .node-num { border-color: var(--gold); color: var(--gold); background: rgba(245,166,35,0.08); }
+.zone-buyer .node-num { border-color: var(--green); color: var(--green); background: rgba(76,175,80,0.08); }
+
+/* INCOTERM TABLE */
+.inc-table-wrap { overflow-x: auto; margin-bottom: 2rem; background: white; border-radius: 12px; border: 1px solid var(--border); box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+}
+
+th {
+  background: var(--mid);
+  padding: 0.7rem 0.8rem;
+  text-align: left;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
+  border-bottom: 1px solid var(--border);
+}
+
+td {
+  padding: 0.65rem 0.8rem;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+
+tr:hover td { background: rgba(0,0,0,0.02); }
+
+.inc-code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+}
+
+.vd-badge, .va-badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 3px;
+}
+
+.vd-badge { background: rgba(66,165,245,0.15); color: var(--sky); border: 1px solid rgba(66,165,245,0.3); }
+.va-badge { background: rgba(76,175,80,0.15); color: var(--green); border: 1px solid rgba(76,175,80,0.3); }
+
+.transport-pill {
+  font-size: 0.65rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 20px;
+  background: rgba(245,166,35,0.12);
+  color: var(--amber);
+  border: 1px solid rgba(245,166,35,0.25);
+}
+
+.steps-cell {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--sky);
+}
+
+/* ===== ILLUSTRATED MAP STEPS ===== */
+.map-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  flex: 1;
+  min-width: 72px;
+  position: relative;
+  z-index: 1;
+}
+
+.map-icon-wrap {
+  width: 56px; height: 56px;
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  border: 2px solid;
+  background: white;
+}
+
+.seller-icon { border-color: #90caf9; box-shadow: 0 2px 8px rgba(21,101,192,0.15); }
+.transit-icon { border-color: #ffd54f; box-shadow: 0 2px 8px rgba(249,168,37,0.15); }
+.buyer-icon { border-color: #a5d6a7; box-shadow: 0 2px 8px rgba(46,125,50,0.15); }
+
+.map-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  font-weight: 700;
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: white;
+}
+
+.seller-num { background: #1565c0; }
+.transit-num { background: #f9a825; color: #333; }
+.buyer-num { background: #2e7d32; }
+
+.map-lbl {
+  font-size: 0.62rem;
+  text-align: center;
+  line-height: 1.3;
+  color: var(--muted);
+  max-width: 72px;
+  font-family: 'Syne', sans-serif;
+}
+
+.map-arrow {
+  font-size: 1.1rem;
+  color: #ccc;
+  padding: 0 2px;
+  margin-top: 16px;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+
+/* ===== CARDS (QCM) ===== */
+.card {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+  overflow: hidden;
+  animation: fadeUp 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+@keyframes fadeUp {
+  from { opacity:0; transform: translateY(10px); }
+  to { opacity:1; transform: translateY(0); }
+}
+
+.card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.9rem 1.3rem;
+  background: var(--mid);
+  border-bottom: 1px solid var(--border);
+}
+
+.card-type {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--sky);
+}
+
+.diff {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 20px;
+}
+
+.diff-easy { background: rgba(76,175,80,0.2); color: var(--green); }
+.diff-med { background: rgba(245,166,35,0.2); color: var(--amber); }
+.diff-hard { background: rgba(239,83,80,0.2); color: var(--red); }
+
+.card-body { padding: 1.3rem; }
+
+.q-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  color: var(--muted);
+  letter-spacing: 0.15em;
+  margin-bottom: 0.4rem;
+}
+
+.q-text {
+  font-family: 'Instrument Serif', serif;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 1.2rem;
+  color: var(--text);
+}
+
+.q-context {
+  background: rgba(21,101,192,0.06);
+  border-left: 3px solid var(--ocean);
+  padding: 0.8rem 1rem;
+  margin-bottom: 1.2rem;
+  border-radius: 0 6px 6px 0;
+  font-size: 0.88rem;
+  font-style: italic;
+  color: #1a4a8a;
+  line-height: 1.6;
+}
+
+.opts { display: flex; flex-direction: column; gap: 0.5rem; }
+
+.opt {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.8rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.18s;
+  font-family: 'Syne', sans-serif;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: var(--text);
+}
+
+.opt:hover:not(:disabled) {
+  border-color: rgba(25,118,210,0.4);
+  background: rgba(25,118,210,0.05);
+  transform: translateX(4px);
+}
+
+.opt-letter {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: var(--mid);
+  border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+  color: var(--muted);
+}
+
+.opt.correct { border-color: rgba(76,175,80,0.5); background: rgba(76,175,80,0.08); }
+.opt.correct .opt-letter { background: var(--green); color: white; }
+.opt.wrong { border-color: rgba(239,83,80,0.5); background: rgba(239,83,80,0.08); }
+.opt.wrong .opt-letter { background: var(--red); color: white; }
+.opt:disabled { cursor: default; }
+
+.feedback {
+  display: none;
+  margin-top: 1rem;
+  padding: 0.9rem 1rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+
+.feedback.ok { background: rgba(46,125,50,0.07); border: 1px solid rgba(46,125,50,0.3); color: #1b5e20; }
+.feedback.ko { background: rgba(198,40,40,0.06); border: 1px solid rgba(198,40,40,0.25); color: #b71c1c; }
+.feedback.info { background: rgba(21,101,192,0.07); border: 1px solid rgba(21,101,192,0.25); color: #0d47a1; }
+
+/* ===== DRAG & DROP ===== */
+.dnd-instructions {
+  font-size: 0.82rem;
+  color: var(--muted);
+  margin-bottom: 1rem;
+  font-style: italic;
+}
+
+.dnd-area {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 600px) { .dnd-area { grid-template-columns: 1fr; } }
+
+.dnd-pool-title, .dnd-zone-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 0.6rem;
+}
+
+.dnd-pool {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  min-height: 60px;
+  padding: 0.8rem;
+  background: var(--deep);
+  border: 1px dashed rgba(0,0,0,0.15);
+  border-radius: 8px;
+}
+
+.dnd-chip {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  padding: 0.35rem 0.8rem;
+  border-radius: 20px;
+  background: white;
+  border: 1px solid var(--border);
+  cursor: grab;
+  transition: all 0.15s;
+  user-select: none;
+  color: var(--text);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+
+.dnd-chip:hover { border-color: var(--sky); color: var(--sky); transform: scale(1.04); }
+.dnd-chip.dragging { opacity: 0.4; }
+
+.dnd-zones { display: flex; flex-direction: column; gap: 0.75rem; }
+
+.dnd-zone {
+  padding: 0.7rem 1rem;
+  background: var(--deep);
+  border: 1px dashed rgba(0,0,0,0.15);
+  border-radius: 8px;
+  min-height: 52px;
+  transition: all 0.2s;
+}
+
+.dnd-zone.over {
+  border-color: var(--sky);
+  background: rgba(25,118,210,0.05);
+}
+
+.dnd-zone-label {
+  font-size: 0.82rem;
+  color: var(--muted);
+  margin-bottom: 0.4rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.dnd-zone-label strong { color: var(--text); }
+
+.dnd-dropped { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+
+/* ===== CASE PRATIQUE ===== */
+.case-scenario {
+  background: linear-gradient(135deg, #f0f4ff 0%, #e8f0fe 100%);
+  border: 1px solid rgba(25,118,210,0.2);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.case-title {
+  font-family: 'Instrument Serif', serif;
+  font-size: 1.2rem;
+  font-style: italic;
+  color: var(--gold);
+  margin-bottom: 0.75rem;
+}
+
+.case-data {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.case-datum {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.7rem 0.9rem;
+}
+
+.datum-key {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 0.25rem;
+}
+
+.datum-val {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--sky);
+}
+
+/* OPEN */
+.hint-box {
+  background: rgba(212,136,10,0.07);
+  border-left: 3px solid var(--gold);
+  padding: 0.8rem 1rem;
+  margin-bottom: 1rem;
+  border-radius: 0 8px 8px 0;
+  font-size: 0.82rem;
+  color: #7a4800;
+  font-style: italic;
+}
+
+textarea {
+  width: 100%;
+  min-height: 110px;
+  background: var(--deep);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.9rem 1rem;
+  color: var(--text);
+  font-family: 'Syne', sans-serif;
+  font-size: 0.88rem;
+  resize: vertical;
+  transition: border-color 0.2s;
+}
+
+textarea:focus { outline: none; border-color: rgba(25,118,210,0.5); }
+
+/* BUTTONS */
+.btn-row { display: flex; gap: 0.6rem; margin-top: 1rem; flex-wrap: wrap; }
+
+.btn {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.65rem 1.3rem;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: all 0.18s;
+  background: transparent;
+  color: var(--muted);
+}
+
+.btn-primary {
+  background: var(--ocean);
+  border-color: var(--ocean);
+  color: white;
+}
+
+.btn-primary:hover { background: var(--sky); border-color: var(--sky); }
+.btn:not(.btn-primary):hover { background: rgba(255,255,255,0.05); color: var(--text); }
+
+/* TIMER */
+.timer-row {
+  display: flex; align-items: center; gap: 0.5rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--muted);
+  margin-bottom: 0.75rem;
+}
+
+.t-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--green);
+  animation: blink 1.4s infinite;
+}
+
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+
+/* QUIZ FINAL */
+.result-wrap {
+  text-align: center;
+  padding: 3rem 2rem;
+}
+
+.result-score {
+  font-size: 5rem;
+  font-weight: 800;
+  color: var(--gold);
+  line-height: 1;
+}
+
+.result-sub {
+  font-family: 'Instrument Serif', serif;
+  font-size: 1.4rem;
+  font-style: italic;
+  color: var(--muted);
+  margin-top: 0.5rem;
+}
+
+/* RESPONSIVE */
+@media (max-width: 600px) {
+  header { padding: 1.5rem 1rem 1rem; }
+  main { padding: 1rem; }
+  nav { padding: 1rem 1rem 0; }
+  .tab { padding: 0.5rem 0.8rem; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo-area">
+    <div class="eyebrow">ICC 2020 · Mrs. Elsa Lemoine's Course</div>
+    <h1>Incoterms <em>en pratique</em></h1>
+    <p class="header-meta">Exercices interactifs · TC2 Parcours BI</p>
+  </div>
+  <div class="score-panel">
+    <div class="score-big" id="scoreBig">0</div>
+    <div class="score-lbl">points</div>
+  </div>
+</header>
+
+<div class="progress-strip">
+  <span class="p-label">Progression</span>
+  <div class="p-bar"><div class="p-fill" id="pFill"></div></div>
+  <span style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--muted)" id="pCount">0 / 12</span>
+</div>
+
+<nav>
+  <button class="tab active" onclick="goTab('carte')">🗺️ Map</button>
+  <button class="tab" onclick="goTab('tableau')">📊 Table</button>
+  <button class="tab" onclick="goTab('qcm')">❓ MCQ</button>
+  <button class="tab" onclick="goTab('glisser')">🧲 Drag & Drop</button>
+  <button class="tab" onclick="goTab('valeo')">🏭 Valeo Case</button>
+</nav>
+
+<main>
+
+<!-- ===== CARTE LOGISTIQUE ===== -->
+<section id="carte" class="section active">
+  <p class="chain-title">The international logistics chain</p>
+  <p class="chain-subtitle">Step-by-step animation · ICC 2020</p>
+
+  <!-- ===== ANIMATED SCENE ===== -->
+  <div style="background:white;border:1px solid var(--border);border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.06);margin-bottom:2rem;">
+
+    <!-- CONTROLS BAR -->
+    <div style="padding:1rem 1.5rem;background:#f8fafc;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
+
+      <!-- Transport selector -->
+      <div style="display:flex;gap:0.4rem;">
+        <button id="btn-sea" onclick="setMode('sea')" style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:0.1em;padding:0.4rem 0.9rem;border-radius:20px;border:1.5px solid #1565c0;background:#1565c0;color:white;cursor:pointer;">🚢 Sea</button>
+        <button id="btn-air" onclick="setMode('air')" style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:0.1em;padding:0.4rem 0.9rem;border-radius:20px;border:1.5px solid #cbd5e1;background:white;color:#64748b;cursor:pointer;">✈️ Air</button>
+      </div>
+
+      <!-- Incoterm selector -->
+      <select id="inc-select" onchange="setIncoterm(this.value)" style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;padding:0.4rem 0.7rem;border-radius:6px;border:1.5px solid #cbd5e1;background:white;color:#1e293b;cursor:pointer;">
+        <option value="none">— Incoterm —</option>
+        <optgroup label="Departure Sales">
+          <option value="EXW">EXW — Ex-Works</option>
+          <option value="FAS">FAS — Free Alongside Ship</option>
+          <option value="FCA">FCA — Free Carrier</option>
+          <option value="FOB">FOB — Free On Board</option>
+          <option value="CFR">CFR — Cost & Freight</option>
+          <option value="CPT">CPT — Carriage Paid To</option>
+          <option value="CIF">CIF — Cost Insurance & Freight</option>
+          <option value="CIP">CIP — Carriage Insurance Paid</option>
+        </optgroup>
+        <optgroup label="Arrival Sales">
+          <option value="DAP">DAP — Delivered At Place</option>
+          <option value="DPU">DPU — Delivered Place Unloaded</option>
+          <option value="DDP">DDP — Delivered Duty Paid</option>
+        </optgroup>
+      </select>
+
+      <div style="flex:1"></div>
+
+      <!-- Speed -->
+      <label style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:#64748b;display:flex;align-items:center;gap:0.4rem;">
+        🐢
+        <input id="speed-slider" type="range" min="1" max="5" value="3" oninput="setSpeed(this.value)"
+          style="width:70px;accent-color:#1565c0;">
+        🐇
+      </label>
+
+      <!-- Play / Pause -->
+      <button id="btn-play" onclick="togglePlay()"
+        style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;padding:0.5rem 1.2rem;border-radius:6px;border:1.5px solid #1565c0;background:#1565c0;color:white;cursor:pointer;font-weight:600;min-width:90px;">
+        ⏸ Pause
+      </button>
+
+      <!-- Step counter -->
+      <span id="step-counter" style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:#64748b;white-space:nowrap;">Step 1 / 11</span>
+    </div>
+
+    <!-- STEP PROGRESS DOTS -->
+    <div style="padding:0.6rem 1.5rem;background:#f1f5f9;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:0.5rem;">
+      <span style="font-family:'JetBrains Mono',monospace;font-size:0.55rem;color:#94a3b8;text-transform:uppercase;letter-spacing:0.1em;margin-right:0.3rem;">Steps</span>
+      <div id="step-dots" style="display:flex;gap:4px;align-items:center;flex:1;"></div>
+      <!-- Auto-advance timer bar -->
+      <div style="width:80px;height:4px;background:#e2e8f0;border-radius:2px;overflow:hidden;">
+        <div id="timer-bar" style="height:100%;background:#1565c0;border-radius:2px;width:0%;transition:none;"></div>
+      </div>
+    </div>
+
+    <!-- INCOTERM INFO PANEL -->
+    <div id="inc-panel" style="display:none;padding:0.7rem 1.5rem;background:#fffbeb;border-bottom:1px solid #fde68a;">
+      <div style="display:flex;gap:2rem;flex-wrap:wrap;align-items:center;">
+        <div><span style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:#92400e;letter-spacing:0.1em;text-transform:uppercase;">Selected Incoterm</span><br>
+          <span id="inc-name-big" style="font-family:'JetBrains Mono',monospace;font-size:1rem;font-weight:700;color:#1d4ed8"></span></div>
+        <div id="cost-indicator" style="font-size:0.78rem;"></div>
+        <div id="risk-indicator" style="font-size:0.78rem;"></div>
+        <div id="transfer-msg" style="font-size:0.78rem;font-weight:600;color:#dc2626;display:none;">⚡ Risk transfer here!</div>
+        <div id="cost-msg" style="font-size:0.78rem;font-weight:600;color:#2563eb;display:none;">€ Cost transfer here!</div>
+      </div>
+    </div>
+
+    <!-- SVG SCENE -->
+    <div style="overflow-x:auto;background:#f0f9ff;">
+      <svg id="scene" viewBox="0 0 900 220" style="width:100%;min-width:700px;display:block;" xmlns="http://www.w3.org/2000/svg">
+
+        <!-- SKY -->
+        <defs>
+          <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#e0f2fe"/>
+            <stop offset="100%" stop-color="#f0f9ff"/>
+          </linearGradient>
+          <linearGradient id="seaGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#0ea5e9"/>
+            <stop offset="100%" stop-color="#0369a1"/>
+          </linearGradient>
+          <linearGradient id="roadGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#94a3b8"/>
+            <stop offset="100%" stop-color="#64748b"/>
+          </linearGradient>
+          <!-- cloud filter -->
+          <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+            <feDropShadow dx="1" dy="2" stdDeviation="2" flood-opacity="0.15"/>
+          </filter>
+        </defs>
+
+        <!-- Background -->
+        <rect width="900" height="220" fill="url(#skyGrad)"/>
+
+        <!-- Ground -->
+        <rect x="0" y="155" width="900" height="65" fill="#e2e8f0"/>
+        <!-- Road -->
+        <rect x="0" y="155" width="900" height="18" fill="url(#roadGrad)"/>
+        <line x1="0" y1="164" x2="900" y2="164" stroke="white" stroke-width="2" stroke-dasharray="30,20" opacity="0.6"/>
+
+        <!-- SEA (shown in maritime mode) -->
+        <g id="sea-layer">
+          <rect x="355" y="155" width="155" height="65" fill="url(#seaGrad)"/>
+          <path d="M355 160 Q375 155 400 160 Q425 165 450 160 Q475 155 490 160 Q510 163 510 160" fill="none" stroke="white" stroke-width="1.5" opacity="0.3"/>
+          <path d="M355 175 Q375 170 400 175 Q425 180 450 175 Q475 170 490 175 Q510 178 510 175" fill="none" stroke="white" stroke-width="1.5" opacity="0.3"/>
+          <path d="M355 192 Q375 187 400 192 Q425 197 450 192 Q475 187 490 192 Q510 195 510 192" fill="none" stroke="white" stroke-width="1.5" opacity="0.3"/>
+          <text x="432" y="185" text-anchor="middle" font-size="9" fill="white" opacity="0.6" font-family="sans-serif">OCEAN</text>
+          <!-- Brace: port départ → port arrivée for steps 6-7 -->
+          <g id="transport-brace" opacity="0.85">
+            <!-- Horizontal line -->
+            <line x1="318" y1="172" x2="508" y2="172" stroke="white" stroke-width="1.5" stroke-dasharray="4,3"/>
+            <!-- Left tick -->
+            <line x1="318" y1="168" x2="318" y2="176" stroke="white" stroke-width="2"/>
+            <!-- Right tick -->
+            <line x1="508" y1="168" x2="508" y2="176" stroke="white" stroke-width="2"/>
+            <!-- Label -->
+            <text x="413" y="168" text-anchor="middle" font-size="7.5" fill="white" font-family="sans-serif" font-weight="bold">← steps 6 &amp; 7: from departure port to arrival port →</text>
+          </g>
+        </g>
+
+        <!-- Clouds -->
+        <g opacity="0.7">
+          <ellipse cx="120" cy="35" rx="35" ry="16" fill="white"/>
+          <ellipse cx="145" cy="28" rx="25" ry="14" fill="white"/>
+          <ellipse cx="100" cy="30" rx="20" ry="12" fill="white"/>
+          <ellipse cx="600" cy="40" rx="30" ry="14" fill="white"/>
+          <ellipse cx="625" cy="33" rx="22" ry="12" fill="white"/>
+          <ellipse cx="580" cy="36" rx="18" ry="10" fill="white"/>
+          <ellipse cx="800" cy="30" rx="28" ry="13" fill="white"/>
+          <ellipse cx="822" cy="24" rx="20" ry="11" fill="white"/>
+        </g>
+
+        <!-- ===== STEP MARKERS ===== -->
+        <!-- Step positions: 1=55, 2=120, 3=195, 4=265, 5=355, 6=450, 7=450(ins), 8=545, 9=635, 10=720, 11=830 -->
+        <g id="step-markers" font-family="'JetBrains Mono',monospace">
+          <!-- Step 1 -->
+          <circle cx="72" cy="148" r="11" fill="#1565c0" id="sm1"/>
+          <text x="72" y="152" text-anchor="middle" font-size="9" fill="white" font-weight="bold">1</text>
+          <!-- Step 2 -->
+          <circle cx="115" cy="148" r="11" fill="#1565c0" id="sm2"/>
+          <text x="115" y="152" text-anchor="middle" font-size="9" fill="white" font-weight="bold">2</text>
+          <!-- Step 3 -->
+          <circle cx="150" cy="148" r="11" fill="#1565c0" id="sm3"/>
+          <text x="150" y="152" text-anchor="middle" font-size="9" fill="white" font-weight="bold">3</text>
+          <!-- Step 4 -->
+          <circle cx="225" cy="148" r="11" fill="#1565c0" id="sm4"/>
+          <text x="225" y="152" text-anchor="middle" font-size="9" fill="white" font-weight="bold">4</text>
+          <!-- Step 5 -->
+          <circle cx="315" cy="148" r="11" fill="#f59e0b" id="sm5"/>
+          <text x="315" y="152" text-anchor="middle" font-size="9" fill="white" font-weight="bold">5</text>
+          <!-- Step 6 -->
+          <circle cx="450" cy="148" r="11" fill="#f59e0b" id="sm6"/>
+          <text x="450" y="152" text-anchor="middle" font-size="9" fill="white" font-weight="bold">6</text>
+          <!-- Step 7 -->
+          <circle cx="450" cy="110" r="11" fill="#f59e0b" id="sm7"/>
+          <text x="450" y="114" text-anchor="middle" font-size="9" fill="white" font-weight="bold">7</text>
+          <!-- Step 8 -->
+          <circle cx="547" cy="148" r="11" fill="#f59e0b" id="sm8"/>
+          <text x="547" y="152" text-anchor="middle" font-size="9" fill="white" font-weight="bold">8</text>
+          <!-- Step 9 -->
+          <circle cx="655" cy="148" r="11" fill="#16a34a" id="sm9"/>
+          <text x="655" y="152" text-anchor="middle" font-size="9" fill="white" font-weight="bold">9</text>
+          <!-- Step 10 -->
+          <circle cx="692" cy="148" r="11" fill="#16a34a" id="sm10"/>
+          <text x="692" y="152" text-anchor="middle" font-size="9" fill="white" font-weight="bold">10</text>
+          <!-- Step 11 -->
+          <circle cx="825" cy="148" r="11" fill="#16a34a" id="sm11"/>
+          <text x="825" y="152" text-anchor="middle" font-size="9" fill="white" font-weight="bold">11</text>
+        </g>
+
+        <!-- Step labels below -->
+        <g font-family="sans-serif" font-size="7.5" fill="#475569" text-anchor="middle">
+          <text x="50" y="176">Pkg.</text>
+          <text x="115" y="176">Load.</text>
+          <text x="150" y="176">Pre-car.</text>
+          <text x="225" y="176">Exp.cust.</text>
+          <text x="315" y="176">Port load</text>
+          <text x="450" y="176">Transp.</text>
+          <text x="450" y="126">Insur.</text>
+          <text x="547" y="176">Unload.</text>
+          <text x="655" y="176">Imp.cust.</text>
+          <text x="692" y="176">Post-car.</text>
+          <text x="825" y="176">Buyer unl.</text>
+        </g>
+
+        <!-- SELLER FACTORY (left) -->
+        <g transform="translate(10,60)" filter="url(#shadow)">
+          <rect x="0" y="40" width="42" height="52" rx="2" fill="#bfdbfe" stroke="#1d4ed8" stroke-width="1.5"/>
+          <rect x="8" y="28" width="14" height="14" fill="#bfdbfe" stroke="#1d4ed8" stroke-width="1.5"/>
+          <rect x="26" y="22" width="14" height="20" fill="#bfdbfe" stroke="#1d4ed8" stroke-width="1.5"/>
+          <rect x="13" y="60" width="10" height="18" rx="1" fill="#1d4ed8"/>
+          <rect x="26" y="62" width="12" height="8" rx="1" fill="#93c5fd"/>
+          <text x="21" y="104" text-anchor="middle" font-size="7" fill="#1d4ed8" font-family="'JetBrains Mono',monospace" font-weight="bold">SELLER</text>
+        </g>
+
+        <!-- BUYER WAREHOUSE (right) -->
+        <g transform="translate(848,62)" filter="url(#shadow)">
+          <rect x="0" y="38" width="42" height="52" rx="2" fill="#bbf7d0" stroke="#16a34a" stroke-width="1.5"/>
+          <polygon points="-2,38 21,22 44,38" fill="#86efac" stroke="#16a34a" stroke-width="1.5"/>
+          <rect x="14" y="55" width="13" height="20" rx="1" fill="#16a34a"/>
+          <rect x="3" y="42" width="10" height="9" rx="1" fill="#dcfce7" stroke="#16a34a" stroke-width="1"/>
+          <rect x="28" y="42" width="10" height="9" rx="1" fill="#dcfce7" stroke="#16a34a" stroke-width="1"/>
+          <text x="21" y="104" text-anchor="middle" font-size="7" fill="#16a34a" font-family="'JetBrains Mono',monospace" font-weight="bold">BUYER</text>
+        </g>
+
+        <!-- PORT LEFT — GRUE À PORTIQUE -->
+        <g transform="translate(281,28)">
+          <!-- Left leg -->
+          <rect x="0" y="52" width="8" height="90" rx="2" fill="#c2440a"/>
+          <!-- Right leg -->
+          <rect x="66" y="52" width="8" height="90" rx="2" fill="#c2440a"/>
+          <!-- Top beam -->
+          <rect x="-5" y="47" width="84" height="9" rx="2" fill="#c2440a"/>
+          <!-- Rail on beam -->
+          <rect x="2" y="43" width="70" height="5" rx="1" fill="#a33a08"/>
+          <!-- Trolley -->
+          <rect id="trolley" x="26" y="38" width="18" height="8" rx="2" fill="#7c3500"/>
+          <!-- Cable -->
+          <line id="crane-cable" x1="35" y1="46" x2="35" y2="74" stroke="#333" stroke-width="1.5"/>
+          <!-- Container on crane -->
+          <g id="crane-container">
+            <rect x="24" y="74" width="22" height="14" rx="1" fill="#fde68a" stroke="#f59e0b" stroke-width="1.5"/>
+            <line x1="24" y1="81" x2="46" y2="81" stroke="#f59e0b" stroke-width="1"/>
+            <line x1="35" y1="74" x2="35" y2="88" stroke="#f59e0b" stroke-width="1"/>
+          </g>
+          <!-- Horizontal bracing -->
+          <line x1="4" y1="80" x2="70" y2="80" stroke="#a33a08" stroke-width="1.5" opacity="0.5"/>
+          <line x1="4" y1="108" x2="70" y2="108" stroke="#a33a08" stroke-width="1.5" opacity="0.5"/>
+          <!-- Ground rails -->
+          <rect x="-10" y="140" width="90" height="4" rx="1" fill="#78716c" opacity="0.6"/>
+        </g>
+
+        <!-- PORT RIGHT — GRUE À PORTIQUE MIROIR -->
+        <g transform="translate(510,28)">
+          <!-- Left leg -->
+          <rect x="0" y="52" width="8" height="90" rx="2" fill="#c2440a"/>
+          <!-- Right leg -->
+          <rect x="66" y="52" width="8" height="90" rx="2" fill="#c2440a"/>
+          <!-- Top beam -->
+          <rect x="-5" y="47" width="84" height="9" rx="2" fill="#c2440a"/>
+          <!-- Rail on beam -->
+          <rect x="2" y="43" width="70" height="5" rx="1" fill="#a33a08"/>
+          <!-- Trolley (starts right side = over ship at step8) -->
+          <rect id="trolley-r" x="30" y="38" width="18" height="8" rx="2" fill="#7c3500"/>
+          <!-- Cable -->
+          <line id="crane-cable-r" x1="39" y1="46" x2="39" y2="74" stroke="#333" stroke-width="1.5"/>
+          <!-- Container on right crane -->
+          <g id="crane-container-r">
+            <rect x="28" y="74" width="22" height="14" rx="1" fill="#bbf7d0" stroke="#16a34a" stroke-width="1.5"/>
+            <line x1="28" y1="81" x2="50" y2="81" stroke="#16a34a" stroke-width="1"/>
+            <line x1="39" y1="74" x2="39" y2="88" stroke="#16a34a" stroke-width="1"/>
+          </g>
+          <!-- Bracing -->
+          <line x1="4" y1="80" x2="70" y2="80" stroke="#a33a08" stroke-width="1.5" opacity="0.5"/>
+          <line x1="4" y1="108" x2="70" y2="108" stroke="#a33a08" stroke-width="1.5" opacity="0.5"/>
+          <!-- Ground rails -->
+          <rect x="-10" y="140" width="90" height="4" rx="1" fill="#78716c" opacity="0.6"/>
+        </g>
+
+        <!-- CUSTOMS EXPORT (step 4) -->
+        <g transform="translate(200,118)">
+          <rect x="0" y="0" width="30" height="22" rx="2" fill="#bfdbfe" stroke="#1d4ed8" stroke-width="1"/>
+          <rect x="0" y="8" width="20" height="5" rx="2" fill="#fca5a5" stroke="#dc2626" stroke-width="1"/>
+          <text x="15" y="18" text-anchor="middle" font-size="6" fill="#1d4ed8" font-weight="bold" font-family="sans-serif">CUSTOMS</text>
+        </g>
+
+        <!-- CUSTOMS IMPORT (step 9) -->
+        <g transform="translate(636,118)">
+          <rect x="0" y="0" width="30" height="22" rx="2" fill="#bbf7d0" stroke="#16a34a" stroke-width="1"/>
+          <rect x="0" y="8" width="20" height="5" rx="2" fill="#86efac" stroke="#16a34a" stroke-width="1"/>
+          <text x="15" y="18" text-anchor="middle" font-size="6" fill="#16a34a" font-weight="bold" font-family="sans-serif">CUSTOMS</text>
+        </g>
+
+        <!-- ===== VEHICLES ===== -->
+
+        <!-- TRUCK 1 (pre-carriage) -->
+        <g id="truck1" filter="url(#shadow)">
+          <rect x="0" y="0" width="36" height="20" rx="3" fill="#bfdbfe" stroke="#1d4ed8" stroke-width="1.5"/>
+          <path d="M36 4 L52 4 L52 20 L36 20 Z" fill="#93c5fd" stroke="#1d4ed8" stroke-width="1.5"/>
+          <path d="M36 4 L46 4 L46 12 L36 12 Z" fill="#e0f2fe"/>
+          <circle cx="10" cy="21" r="5" fill="#1d4ed8"/><circle cx="10" cy="21" r="2" fill="white"/>
+          <circle cx="40" cy="21" r="5" fill="#1d4ed8"/><circle cx="40" cy="21" r="2" fill="white"/>
+          <!-- cargo box -->
+          <rect x="4" y="-8" width="14" height="10" rx="1" fill="#fde68a" stroke="#f59e0b" stroke-width="1"/>
+        </g>
+
+        <!-- SHIP (main transport maritime) -->
+        <g id="ship" filter="url(#shadow)">
+          <path d="M0 22 Q30 16 60 22 L55 38 Q30 44 5 38 Z" fill="#bfdbfe" stroke="#1d4ed8" stroke-width="1.5"/>
+          <rect x="10" y="10" width="10" height="14" rx="1" fill="#fde68a" stroke="#f59e0b" stroke-width="1"/>
+          <rect x="24" y="8" width="10" height="16" rx="1" fill="#ef4444" stroke="#b91c1c" stroke-width="1"/>
+          <rect x="38" y="10" width="10" height="14" rx="1" fill="#86efac" stroke="#16a34a" stroke-width="1"/>
+          <rect x="27" y="0" width="7" height="12" rx="1" fill="#64748b"/>
+          <circle cx="25" cy="-2" r="4" fill="#cbd5e1" opacity="0.8"/>
+          <circle cx="32" cy="-6" r="3" fill="#cbd5e1" opacity="0.6"/>
+        </g>
+
+        <!-- PLANE (main transport air) -->
+        <g id="plane" filter="url(#shadow)">
+          <path d="M0 10 L40 4 L44 10 L30 14 L34 26 L26 26 L22 16 L0 20 Z" fill="#bfdbfe" stroke="#1d4ed8" stroke-width="1.5"/>
+          <rect x="8" y="10" width="16" height="6" rx="1" fill="#e0f2fe"/>
+          <!-- engines -->
+          <ellipse cx="15" cy="17" rx="5" ry="2.5" fill="#94a3b8" stroke="#64748b" stroke-width="1"/>
+          <ellipse cx="28" cy="15" rx="4" ry="2" fill="#94a3b8" stroke="#64748b" stroke-width="1"/>
+        </g>
+
+        <!-- TRUCK 2 (post-carriage) -->
+        <g id="truck2" filter="url(#shadow)">
+          <rect x="0" y="0" width="36" height="20" rx="3" fill="#bbf7d0" stroke="#16a34a" stroke-width="1.5"/>
+          <path d="M36 4 L52 4 L52 20 L36 20 Z" fill="#86efac" stroke="#16a34a" stroke-width="1.5"/>
+          <path d="M36 4 L46 4 L46 12 L36 12 Z" fill="#dcfce7"/>
+          <circle cx="10" cy="21" r="5" fill="#16a34a"/><circle cx="10" cy="21" r="2" fill="white"/>
+          <circle cx="40" cy="21" r="5" fill="#16a34a"/><circle cx="40" cy="21" r="2" fill="white"/>
+          <rect x="4" y="-8" width="14" height="10" rx="1" fill="#fde68a" stroke="#f59e0b" stroke-width="1"/>
+        </g>
+
+        <!-- PROGRESS OVERLAY (incoterm cost/risk highlight) -->
+        <rect id="cost-overlay" x="0" y="155" width="0" height="18" fill="#3b82f6" opacity="0.25"/>
+        <rect id="risk-overlay" x="0" y="173" width="0" height="6" fill="#f59e0b" opacity="0.5"/>
+
+        <!-- STEP HIGHLIGHT RING -->
+        <circle id="step-ring" cx="-100" cy="-100" r="16" fill="none" stroke="#ef4444" stroke-width="2.5" opacity="0.8">
+          <animate attributeName="r" values="14;18;14" dur="1s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0.9;0.4;0.9" dur="1s" repeatCount="indefinite"/>
+        </circle>
+
+      </svg>
+    </div>
+
+    <!-- STEP DESCRIPTION BOX -->
+    <div id="step-desc" style="padding:1rem 1.5rem;background:white;border-top:1px solid var(--border);">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:#94a3b8;margin-bottom:0.3rem;" id="step-label-top">← Click "Next Step" to start</div>
+      <div style="font-size:0.9rem;color:#1e293b;font-weight:600;" id="step-title-main"></div>
+      <div style="font-size:0.8rem;color:#475569;margin-top:0.25rem;line-height:1.6;" id="step-desc-text"></div>
+    </div>
+  </div>
+
+  <!-- STATIC ILLUSTRATED MAP (kept below for reference) -->
+  <p class="chain-title" style="font-size:1rem;margin-bottom:0.3rem;">Static reference — the 11 steps</p>
+  <p class="chain-subtitle" style="margin-bottom:1rem;">Complete overview</p>
+  <div class="chain-wrap" style="padding:0;overflow:hidden;">
+
+    <!-- Zone labels bar -->
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;text-align:center;font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;">
+      <div style="background:#e3f0ff;color:#1565c0;padding:0.45rem;border-right:2px dashed #90b8e8;">🔵 SELLER ZONE</div>
+      <div style="background:#fff8e1;color:#b86f00;padding:0.45rem;border-right:2px dashed #f0c040;">🟡 TRANSPORT & TRANSIT</div>
+      <div style="background:#e8f5e9;color:#2e7d32;padding:0.45rem;">🟢 BUYER ZONE</div>
+    </div>
+
+    <!-- Main illustrated chain -->
+    <div style="padding:1.5rem 1rem 1rem;overflow-x:auto;">
+      <div style="display:flex;align-items:flex-start;gap:0;min-width:900px;position:relative;">
+
+        <!-- Connector line behind everything -->
+        <div style="position:absolute;top:44px;left:40px;right:40px;height:3px;background:linear-gradient(90deg,#90caf9 30%,#ffd54f 60%,#a5d6a7 100%);z-index:0;border-radius:2px;"></div>
+
+        <!-- Step 1: PACKAGING / USINE -->
+        <div class="map-step zone-seller">
+          <div class="map-icon-wrap seller-icon">
+            <svg viewBox="0 0 48 48" width="42" height="42">
+              <!-- Factory / box packaging -->
+              <rect x="6" y="20" width="36" height="22" rx="2" fill="#bbdefb" stroke="#1565c0" stroke-width="1.5"/>
+              <rect x="14" y="28" width="8" height="14" rx="1" fill="#1565c0"/>
+              <rect x="26" y="30" width="10" height="7" rx="1" fill="#90caf9"/>
+              <rect x="10" y="14" width="12" height="8" fill="#bbdefb" stroke="#1565c0" stroke-width="1.5"/>
+              <rect x="26" y="10" width="12" height="12" fill="#bbdefb" stroke="#1565c0" stroke-width="1.5"/>
+              <line x1="18" y1="20" x2="18" y2="14" stroke="#1565c0" stroke-width="1.5"/>
+              <!-- Box on top -->
+              <rect x="18" y="4" width="12" height="10" rx="1" fill="#fff9c4" stroke="#f9a825" stroke-width="1.5"/>
+              <line x1="18" y1="9" x2="30" y2="9" stroke="#f9a825" stroke-width="1"/>
+              <line x1="24" y1="4" x2="24" y2="14" stroke="#f9a825" stroke-width="1"/>
+            </svg>
+          </div>
+          <div class="map-num seller-num">1</div>
+          <div class="map-lbl">Packaging</div>
+        </div>
+
+        <div class="map-arrow">→</div>
+
+        <!-- Step 2: LOADING AT SELLER -->
+        <div class="map-step zone-seller">
+          <div class="map-icon-wrap seller-icon">
+            <svg viewBox="0 0 48 48" width="42" height="42">
+              <!-- Forklift -->
+              <rect x="4" y="28" width="22" height="14" rx="2" fill="#bbdefb" stroke="#1565c0" stroke-width="1.5"/>
+              <rect x="22" y="20" width="4" height="22" rx="1" fill="#1565c0"/>
+              <rect x="26" y="20" width="14" height="4" rx="1" fill="#90caf9" stroke="#1565c0" stroke-width="1"/>
+              <!-- wheels -->
+              <circle cx="9" cy="43" r="4" fill="#1565c0"/>
+              <circle cx="20" cy="43" r="4" fill="#1565c0"/>
+              <!-- box being lifted -->
+              <rect x="28" y="10" width="12" height="10" rx="1" fill="#fff9c4" stroke="#f9a825" stroke-width="1.5"/>
+              <line x1="28" y1="15" x2="40" y2="15" stroke="#f9a825" stroke-width="1"/>
+            </svg>
+          </div>
+          <div class="map-num seller-num">2</div>
+          <div class="map-lbl">Chargement seller</div>
+        </div>
+
+        <div class="map-arrow">→</div>
+
+        <!-- Step 3: PRE-CARRIAGE TRUCK -->
+        <div class="map-step zone-seller">
+          <div class="map-icon-wrap seller-icon">
+            <svg viewBox="0 0 48 48" width="42" height="42">
+              <!-- Truck -->
+              <rect x="2" y="18" width="28" height="18" rx="2" fill="#bbdefb" stroke="#1565c0" stroke-width="1.5"/>
+              <path d="M30 22 L44 22 L44 36 L30 36 Z" fill="#90caf9" stroke="#1565c0" stroke-width="1.5"/>
+              <path d="M30 22 L38 22 L38 30 L30 30 Z" fill="#e3f2fd"/>
+              <circle cx="10" cy="38" r="5" fill="#1565c0"/>
+              <circle cx="10" cy="38" r="2" fill="white"/>
+              <circle cx="36" cy="38" r="5" fill="#1565c0"/>
+              <circle cx="36" cy="38" r="2" fill="white"/>
+              <!-- road lines -->
+              <line x1="0" y1="44" x2="48" y2="44" stroke="#ccc" stroke-width="1.5" stroke-dasharray="4,3"/>
+            </svg>
+          </div>
+          <div class="map-num seller-num">3</div>
+          <div class="map-lbl">Pre-carriage</div>
+        </div>
+
+        <div class="map-arrow">→</div>
+
+        <!-- Step 4: CUSTOMS EXPORT -->
+        <div class="map-step zone-seller">
+          <div class="map-icon-wrap seller-icon">
+            <svg viewBox="0 0 48 48" width="42" height="42">
+              <!-- Customs barrier + stamp -->
+              <rect x="6" y="30" width="36" height="10" rx="2" fill="#bbdefb" stroke="#1565c0" stroke-width="1.5"/>
+              <rect x="20" y="14" width="8" height="18" rx="1" fill="#1565c0"/>
+              <!-- Barrier arm -->
+              <rect x="4" y="24" width="28" height="4" rx="2" fill="#ef9a9a" stroke="#c62828" stroke-width="1"/>
+              <rect x="4" y="24" width="4" height="4" rx="1" fill="#c62828"/>
+              <!-- Star/stamp -->
+              <circle cx="38" cy="16" r="10" fill="#fff9c4" stroke="#f9a825" stroke-width="1.5"/>
+              <text x="38" y="21" text-anchor="middle" font-size="11" fill="#f9a825" font-weight="bold">✓</text>
+            </svg>
+          </div>
+          <div class="map-num seller-num">4</div>
+          <div class="map-lbl">Export Customs</div>
+        </div>
+
+        <div class="map-arrow" style="color:#d4880a">→</div>
+
+        <!-- Step 5: LOADING / PORT DEPARTURE -->
+        <div class="map-step zone-transit">
+          <div class="map-icon-wrap transit-icon">
+            <svg viewBox="0 0 48 48" width="42" height="42">
+              <!-- Port crane + container -->
+              <rect x="18" y="4" width="4" height="36" fill="#795548"/>
+              <rect x="18" y="4" width="22" height="4" fill="#795548"/>
+              <rect x="36" y="4" width="4" height="18" fill="#795548"/>
+              <!-- hook/cable -->
+              <line x1="38" y1="22" x2="38" y2="28" stroke="#555" stroke-width="1.5"/>
+              <!-- container -->
+              <rect x="28" y="28" width="18" height="12" rx="1" fill="#fff9c4" stroke="#f9a825" stroke-width="1.5"/>
+              <line x1="37" y1="28" x2="37" y2="40" stroke="#f9a825" stroke-width="1"/>
+              <!-- dock -->
+              <rect x="0" y="40" width="48" height="6" rx="0" fill="#b0bec5"/>
+              <!-- water -->
+              <path d="M0 46 Q12 44 24 46 Q36 48 48 46 L48 50 L0 50Z" fill="#bbdefb"/>
+            </svg>
+          </div>
+          <div class="map-num transit-num">5</div>
+          <div class="map-lbl">Loading at departure</div>
+        </div>
+
+        <div class="map-arrow" style="color:#d4880a">→</div>
+
+        <!-- Step 6: MAIN TRANSPORT ship+plane -->
+        <div class="map-step zone-transit">
+          <div class="map-icon-wrap transit-icon">
+            <svg viewBox="0 0 48 48" width="42" height="42">
+              <!-- Ship hull -->
+              <path d="M4 30 Q24 26 44 30 L40 40 Q24 44 8 40 Z" fill="#bbdefb" stroke="#1565c0" stroke-width="1.5"/>
+              <!-- containers on deck -->
+              <rect x="10" y="22" width="8" height="8" rx="1" fill="#f9a825"/>
+              <rect x="20" y="22" width="8" height="8" rx="1" fill="#ef5350"/>
+              <rect x="30" y="22" width="8" height="8" rx="1" fill="#66bb6a"/>
+              <!-- funnel -->
+              <rect x="21" y="14" width="5" height="10" rx="1" fill="#546e7a"/>
+              <!-- smoke -->
+              <circle cx="20" cy="11" r="3" fill="#cfd8dc" opacity="0.7"/>
+              <circle cx="24" cy="8" r="2.5" fill="#cfd8dc" opacity="0.5"/>
+              <!-- plane small top right -->
+              <g transform="translate(32,4) scale(0.6)">
+                <path d="M4 8 L20 4 L22 8 L14 10 L16 18 L12 18 L10 12 L4 14 Z" fill="#90caf9" stroke="#1565c0" stroke-width="1"/>
+              </g>
+              <!-- water -->
+              <path d="M0 40 Q12 38 24 40 Q36 42 48 40 L48 48 L0 48Z" fill="#90caf9" opacity="0.5"/>
+            </svg>
+          </div>
+          <div class="map-num transit-num">6</div>
+          <div class="map-lbl">Main carriage</div>
+        </div>
+
+        <div class="map-arrow" style="color:#d4880a">→</div>
+
+        <!-- Step 7: INSURANCE -->
+        <div class="map-step zone-transit">
+          <div class="map-icon-wrap transit-icon">
+            <svg viewBox="0 0 48 48" width="42" height="42">
+              <!-- Shield -->
+              <path d="M24 4 L42 12 L42 26 Q42 38 24 44 Q6 38 6 26 L6 12 Z" fill="#fff9c4" stroke="#f9a825" stroke-width="2"/>
+              <!-- checkmark -->
+              <polyline points="14,24 21,31 34,17" fill="none" stroke="#f9a825" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="map-num transit-num">7</div>
+          <div class="map-lbl">Transport Insurance</div>
+        </div>
+
+        <div class="map-arrow" style="color:#d4880a">→</div>
+
+        <!-- Step 8: UNLOADING ARRIVAL -->
+        <div class="map-step zone-transit">
+          <div class="map-icon-wrap transit-icon">
+            <svg viewBox="0 0 48 48" width="42" height="42">
+              <!-- Port crane arrival (mirrored) -->
+              <rect x="26" y="4" width="4" height="36" fill="#795548"/>
+              <rect x="8" y="4" width="22" height="4" fill="#795548"/>
+              <rect x="8" y="4" width="4" height="18" fill="#795548"/>
+              <line x1="10" y1="22" x2="10" y2="28" stroke="#555" stroke-width="1.5"/>
+              <!-- container being lowered -->
+              <rect x="2" y="28" width="18" height="12" rx="1" fill="#c8e6c9" stroke="#2e7d32" stroke-width="1.5"/>
+              <line x1="11" y1="28" x2="11" y2="40" stroke="#2e7d32" stroke-width="1"/>
+              <rect x="0" y="40" width="48" height="6" rx="0" fill="#b0bec5"/>
+              <path d="M0 46 Q12 44 24 46 Q36 48 48 46 L48 50 L0 50Z" fill="#bbdefb"/>
+            </svg>
+          </div>
+          <div class="map-num transit-num">8</div>
+          <div class="map-lbl">Unloading at arrival</div>
+        </div>
+
+        <div class="map-arrow" style="color:#388e3c">→</div>
+
+        <!-- Step 9: CUSTOMS IMPORT -->
+        <div class="map-step zone-buyer">
+          <div class="map-icon-wrap buyer-icon">
+            <svg viewBox="0 0 48 48" width="42" height="42">
+              <!-- customs stamp green -->
+              <rect x="6" y="30" width="36" height="10" rx="2" fill="#c8e6c9" stroke="#2e7d32" stroke-width="1.5"/>
+              <rect x="20" y="14" width="8" height="18" rx="1" fill="#2e7d32"/>
+              <rect x="4" y="24" width="28" height="4" rx="2" fill="#a5d6a7" stroke="#2e7d32" stroke-width="1"/>
+              <rect x="4" y="24" width="4" height="4" rx="1" fill="#2e7d32"/>
+              <circle cx="38" cy="16" r="10" fill="#c8e6c9" stroke="#2e7d32" stroke-width="1.5"/>
+              <text x="38" y="21" text-anchor="middle" font-size="11" fill="#2e7d32" font-weight="bold">✓</text>
+            </svg>
+          </div>
+          <div class="map-num buyer-num">9</div>
+          <div class="map-lbl">Import Customs + taxes</div>
+        </div>
+
+        <div class="map-arrow" style="color:#388e3c">→</div>
+
+        <!-- Step 10: POST-CARRIAGE TRUCK -->
+        <div class="map-step zone-buyer">
+          <div class="map-icon-wrap buyer-icon">
+            <svg viewBox="0 0 48 48" width="42" height="42">
+              <!-- delivery truck green -->
+              <rect x="2" y="18" width="28" height="18" rx="2" fill="#c8e6c9" stroke="#2e7d32" stroke-width="1.5"/>
+              <path d="M30 22 L44 22 L44 36 L30 36 Z" fill="#a5d6a7" stroke="#2e7d32" stroke-width="1.5"/>
+              <path d="M30 22 L38 22 L38 30 L30 30 Z" fill="#e8f5e9"/>
+              <circle cx="10" cy="38" r="5" fill="#2e7d32"/>
+              <circle cx="10" cy="38" r="2" fill="white"/>
+              <circle cx="36" cy="38" r="5" fill="#2e7d32"/>
+              <circle cx="36" cy="38" r="2" fill="white"/>
+              <line x1="0" y1="44" x2="48" y2="44" stroke="#ccc" stroke-width="1.5" stroke-dasharray="4,3"/>
+            </svg>
+          </div>
+          <div class="map-num buyer-num">10</div>
+          <div class="map-lbl">Post-carriage</div>
+        </div>
+
+        <div class="map-arrow" style="color:#388e3c">→</div>
+
+        <!-- Step 11: UNLOADING BUYER / WAREHOUSE -->
+        <div class="map-step zone-buyer">
+          <div class="map-icon-wrap buyer-icon">
+            <svg viewBox="0 0 48 48" width="42" height="42">
+              <!-- Warehouse / factory buyer -->
+              <rect x="6" y="22" width="36" height="20" rx="2" fill="#c8e6c9" stroke="#2e7d32" stroke-width="1.5"/>
+              <polygon points="4,22 24,8 44,22" fill="#a5d6a7" stroke="#2e7d32" stroke-width="1.5"/>
+              <rect x="19" y="30" width="10" height="12" rx="1" fill="#2e7d32"/>
+              <rect x="9" y="26" width="8" height="7" rx="1" fill="#e8f5e9" stroke="#2e7d32" stroke-width="1"/>
+              <rect x="31" y="26" width="8" height="7" rx="1" fill="#e8f5e9" stroke="#2e7d32" stroke-width="1"/>
+              <!-- boxes -->
+              <rect x="10" y="40" width="7" height="5" rx="1" fill="#fff9c4" stroke="#f9a825" stroke-width="1"/>
+              <rect x="31" y="40" width="7" height="5" rx="1" fill="#fff9c4" stroke="#f9a825" stroke-width="1"/>
+            </svg>
+          </div>
+          <div class="map-num buyer-num">11</div>
+          <div class="map-lbl">Déchargement buyer</div>
+        </div>
+
+      </div><!-- end flex chain -->
+    </div><!-- end padding -->
+
+    <!-- SELLER / BUYER labels -->
+    <div style="display:flex;justify-content:space-between;padding:0.5rem 1.5rem 1rem;flex-wrap:wrap;gap:0.5rem;">
+      <div style="display:flex;align-items:center;gap:0.5rem;">
+        <svg width="28" height="28" viewBox="0 0 28 28"><rect x="2" y="8" width="24" height="18" rx="2" fill="#bbdefb" stroke="#1565c0" stroke-width="1.5"/><rect x="8" y="2" width="12" height="8" rx="1" fill="#90caf9" stroke="#1565c0" stroke-width="1.5"/><rect x="11" y="16" width="6" height="10" rx="1" fill="#1565c0"/></svg>
+        <span style="font-family:'Syne',sans-serif;font-weight:700;font-size:0.85rem;color:#1565c0">SELLER</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:0.5rem;">
+        <span style="font-family:'Syne',sans-serif;font-weight:700;font-size:0.85rem;color:#2e7d32">BUYER</span>
+        <svg width="28" height="28" viewBox="0 0 28 28"><rect x="2" y="10" width="24" height="16" rx="2" fill="#c8e6c9" stroke="#2e7d32" stroke-width="1.5"/><polygon points="1,10 14,2 27,10" fill="#a5d6a7" stroke="#2e7d32" stroke-width="1.5"/><rect x="11" y="18" width="6" height="8" rx="1" fill="#2e7d32"/></svg>
+      </div>
+    </div>
+
+    <!-- legend -->
+    <div style="display:flex;gap:1.5rem;padding:0.75rem 1.5rem;background:#f8f9fa;border-top:1px solid var(--border);flex-wrap:wrap;justify-content:center;">
+      <span style="font-size:0.72rem;display:flex;align-items:center;gap:0.4rem;color:#1565c0"><span style="width:10px;height:10px;border-radius:50%;background:#1565c0;display:inline-block"></span>Zone seller (steps 1–4)</span>
+      <span style="font-size:0.72rem;display:flex;align-items:center;gap:0.4rem;color:#b86f00"><span style="width:10px;height:10px;border-radius:50%;background:#f9a825;display:inline-block"></span>Transport & transit (steps 5–8)</span>
+      <span style="font-size:0.72rem;display:flex;align-items:center;gap:0.4rem;color:#2e7d32"><span style="width:10px;height:10px;border-radius:50%;background:#2e7d32;display:inline-block"></span>Zone buyer (steps 9–11)</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head">
+      <span class="card-type">Question rapide · Carte</span>
+      <span class="diff diff-easy">Easy</span>
+    </div>
+    <div class="card-body">
+      <div class="q-num">Q1</div>
+      <p class="q-text">Quel numéro d&#39;step correspond à la <strong>customs d&#39;importation</strong> dans la chaîne logistique ?</p>
+      <div class="opts" id="q-c1">
+        <button class="opt" onclick="mcq('c1',this,false,'La customs export correspond à l\&#39;step 4, côté seller.')"><span class="opt-letter">A</span>Step 4</button>
+        <button class="opt" onclick="mcq('c1',this,false,'L\&#39;step 6 est le transport principal.')"><span class="opt-letter">B</span>Step 6</button>
+        <button class="opt" onclick="mcq('c1',this,true,'✓ Correct ! L\&#39;step 9 = Import customs facilities (clearance, TVA locale, droits de customs). C\&#39;est l\&#39;buyer qui les prend en charge dans la plupart des incoterms, sauf DDP.')"><span class="opt-letter">C</span>Step 9</button>
+        <button class="opt" onclick="mcq('c1',this,false,'L\&#39;step 11 correspond au déchargement chez l\&#39;buyer.')"><span class="opt-letter">D</span>Step 11</button>
+      </div>
+      <div class="feedback" id="c1-fb"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head">
+      <span class="card-type">Question rapide · Carte</span>
+      <span class="diff diff-easy">Easy</span>
+    </div>
+    <div class="card-body">
+      <div class="q-num">Q2</div>
+      <p class="q-text">Qu&#39;est-ce que le <strong>THC/CSC</strong> mentionné dans le schéma ICC 2020 ?</p>
+      <div class="opts" id="q-c2">
+        <button class="opt" onclick="mcq('c2',this,false,'Ce n\&#39;est pas une taxe sur les devises.')"><span class="opt-letter">A</span>Une taxe sur les changes monétaires</button>
+        <button class="opt" onclick="mcq('c2',this,true,'✓ Correct ! THC = Terminal Handling Charges (frais de manutention portuaire). Les montants varient : de ~50€ pour l\&#39;Inde à ~350€ pour New York.')"><span class="opt-letter">B</span>Les frais de manutention portuaire (Terminal Handling Charges)</button>
+        <button class="opt" onclick="mcq('c2',this,false,'L\&#39;assurance est distincte — step 7.')"><span class="opt-letter">C</span>L&#39;assurance de transport maritime</button>
+        <button class="opt" onclick="mcq('c2',this,false,'Le transport principal est l\&#39;step 6.')"><span class="opt-letter">D</span>Le cost du transport principal</button>
+      </div>
+      <div class="feedback" id="c2-fb"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TABLEAU INCOTERMS ===== -->
+<section id="tableau" class="section">
+  <p class="chain-title">The 11 ICC 2020 Incoterms</p>
+  <p class="chain-subtitle">Cost coverage and risk transfer — step by step</p>
+
+  <!-- LEGEND -->
+  <div class="hm-legend">
+    <div class="hm-legend-item"><span class="hm-swatch" style="background:#bfdbfe;border:1.5px solid #3b82f6"></span>Costs borne by the seller</div>
+    <div class="hm-legend-item"><span class="hm-swatch" style="background:#fde68a;border:1.5px solid #f59e0b"></span>Risk borne by the seller</div>
+    <div class="hm-legend-item"><span class="hm-swatch" style="background:#bbf7d0;border:1.5px solid #22c55e"></span>Costs <em>and</em> risk — seller</div>
+    <div class="hm-legend-item"><span class="hm-swatch" style="background:#f1f5f9;border:1.5px solid #cbd5e1"></span>Borne by the buyer</div>
+    <div class="hm-legend-item"><span style="font-size:0.9rem">⚠️</span> Cost / risk dissociation</div>
+  </div>
+
+  <!-- NOTE dissociation -->
+  <div class="hm-note">
+    💡 <strong>Point clé pédagogique :</strong> Pour les incoterms C (CFR, CPT, CIF, CIP), les <strong>costs</strong> et les <strong>risks</strong> se transfèrent à des steps différentes — c'est la principale source de confusion !
+  </div>
+
+  <!-- HEATMAP TABLE -->
+  <div class="hm-wrap">
+    <table class="hm-table">
+      <thead>
+        <tr>
+          <th class="hm-th-fixed" rowspan="2">Inc.</th>
+          <th class="hm-th-fixed" rowspan="2" style="min-width:140px">Nom</th>
+          <th class="hm-th-fixed" rowspan="2">Mode</th>
+          <th class="hm-th-row-lbl" rowspan="2"></th>
+          <!-- Step headers -->
+          <th class="hm-th-step seller-zone-hd">1<br><span class="hm-step-lbl">Pkg.</span></th>
+          <th class="hm-th-step seller-zone-hd">2<br><span class="hm-step-lbl">Load.</span></th>
+          <th class="hm-th-step seller-zone-hd">3<br><span class="hm-step-lbl">Pre-car.</span></th>
+          <th class="hm-th-step seller-zone-hd">4<br><span class="hm-step-lbl">Exp.cust.</span></th>
+          <th class="hm-th-step transit-zone-hd">5<br><span class="hm-step-lbl">Load. dépt.</span></th>
+          <th class="hm-th-step transit-zone-hd">6<br><span class="hm-step-lbl">Transp.</span></th>
+          <th class="hm-th-step transit-zone-hd">7<br><span class="hm-step-lbl">Insur.</span></th>
+          <th class="hm-th-step transit-zone-hd">8<br><span class="hm-step-lbl">Unload.</span></th>
+          <th class="hm-th-step buyer-zone-hd">9<br><span class="hm-step-lbl">Imp.cust.</span></th>
+          <th class="hm-th-step buyer-zone-hd">10<br><span class="hm-step-lbl">Post-car.</span></th>
+          <th class="hm-th-step buyer-zone-hd">11<br><span class="hm-step-lbl">Buyer U.</span></th>
+        </tr>
+      </thead>
+      <tbody id="hm-body"></tbody>
+    </table>
+  </div>
+
+  <style>
+  .hm-legend {
+    display: flex; flex-wrap: wrap; gap: 1rem;
+    margin-bottom: 1rem;
+    padding: 0.8rem 1rem;
+    background: #f8fafc;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 0.78rem;
+    color: var(--muted);
+  }
+  .hm-legend-item { display: flex; align-items: center; gap: 0.4rem; }
+  .hm-swatch { display:inline-block; width:16px; height:14px; border-radius:3px; }
+  .hm-note {
+    background: #fffbeb;
+    border-left: 3px solid #f59e0b;
+    padding: 0.75rem 1rem;
+    font-size: 0.82rem;
+    color: #78350f;
+    border-radius: 0 6px 6px 0;
+    margin-bottom: 1.2rem;
+    line-height: 1.6;
+  }
+  .hm-wrap {
+    overflow-x: auto;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    margin-bottom: 2rem;
+  }
+  .hm-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.78rem;
+  }
+  .hm-th-fixed {
+    background: #f1f5f9;
+    padding: 0.5rem 0.7rem;
+    text-align: left;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #64748b;
+    border-bottom: 2px solid #e2e8f0;
+    position: sticky;
+    white-space: nowrap;
+  }
+  .hm-th-step {
+    padding: 0.4rem 0.2rem;
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 700;
+    border-bottom: 2px solid #e2e8f0;
+    min-width: 52px;
+    line-height: 1.2;
+  }
+  .hm-step-lbl { font-size: 0.52rem; font-weight:400; letter-spacing:0; display:block; }
+  .seller-zone-hd { background: #eff6ff; color: #1d4ed8; border-left: 1px solid #dbeafe; }
+  .transit-zone-hd { background: #fffbeb; color: #92400e; border-left: 1px solid #fde68a; }
+  .buyer-zone-hd { background: #f0fdf4; color: #166534; border-left: 1px solid #bbf7d0; }
+
+  .hm-tr { border-bottom: 1px solid #f1f5f9; }
+  .hm-tr:hover td { background-color: rgba(99,102,241,0.03); }
+  .hm-tr td { padding: 0; }
+
+  .hm-id-cell {
+    padding: 0 0.7rem;
+    white-space: nowrap;
+    border-right: 1px solid #f1f5f9;
+    vertical-align: middle;
+  }
+  .hm-name-cell {
+    padding: 0 0.7rem;
+    font-size: 0.75rem;
+    color: #475569;
+    border-right: 1px solid #f1f5f9;
+    vertical-align: middle;
+    white-space: nowrap;
+  }
+  .hm-mode-cell {
+    padding: 0 0.5rem;
+    border-right: 2px solid #e2e8f0;
+    vertical-align: middle;
+    text-align: center;
+  }
+  .hm-row-lbl-cell {
+    writing-mode: horizontal-tb;
+    padding: 0 0.35rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.52rem;
+    color: #94a3b8;
+    border-right: 1px solid #f1f5f9;
+    text-align: right;
+    white-space: nowrap;
+    vertical-align: middle;
+  }
+  .hm-cell {
+    width: 52px;
+    height: 22px;
+    border-left: 1px solid rgba(0,0,0,0.05);
+    position: relative;
+  }
+  /* color states */
+  .hm-both   { background: #bbf7d0; }
+  .hm-cost   { background: #bfdbfe; }
+  .hm-risk   { background: #fde68a; }
+  .hm-none   { background: #f8fafc; }
+  /* transfer marker */
+  .hm-transfer-cost::after {
+    content: '€';
+    position: absolute; right: 2px; top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.55rem; color: #2563eb; font-weight: 700;
+  }
+  .hm-transfer-risk::after {
+    content: '⚡';
+    position: absolute; right: 1px; top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.6rem;
+  }
+  /* row separator between incoterms */
+  .hm-cost-row td { border-top: 3px solid transparent; }
+  .hm-risk-row td { border-bottom: 2px solid #e2e8f0; }
+  .hm-row-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.5rem;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  </style>
+
+  <script>
+  // incoterm data: [code, name, mode, costUpTo(step), riskFrom(step)]
+  // costUpTo = last step vendor pays (1-indexed, inclusive)
+  // risk = first step vendor NO LONGER bears risk (exclusive upper bound)
+  // skipStep: step exclue des deux lignes (ex: step 9 pour DAP/DPU)
+  // DAP: cost+risk steps 1-10 sauf 9 | DPU: tout 1-11 sauf 9 | DDP: tout 1-10 y compris 9
+  const INCS = [
+    { code:'EXW', name:'Ex-Works',                 mode:'🌐', vd:true,  cost:1,  risk:2 },
+    { code:'FAS', name:'Free Alongside Ship',       mode:'🚢', vd:true,  cost:4,  risk:5 },
+    { code:'FCA', name:'Free Carrier',              mode:'🌐', vd:true,  cost:4,  risk:5 },
+    { code:'FOB', name:'Free On Board',             mode:'🚢', vd:true,  cost:5,  risk:6 },
+    { code:'CFR', name:'Cost & Freight',            mode:'🚢', vd:true,  cost:6,  risk:6 },
+    { code:'CPT', name:'Carriage Paid To',          mode:'🌐', vd:true,  cost:6,  risk:3 },
+    { code:'CIF', name:'Cost Insurance & Freight',  mode:'🚢', vd:true,  cost:7,  risk:6 },
+    { code:'CIP', name:'Carriage Insurance Paid',   mode:'🌐', vd:true,  cost:7,  risk:3 },
+    { code:'DAP', name:"Delivered At Place — buyer's country",   mode:'🌐', vd:false, cost:7,  risk:8,  variant:'🌍 Pays buyer' },
+    { code:'DAP', name:"Delivered At Place — buyer's premises",  mode:'🌐', vd:false, cost:10, risk:11, skipStep:9, variant:'🏭 Locaux buyer' },
+    { code:'DPU', name:"Delivered Place Unloaded — buyer's country", mode:'🌐', vd:false, cost:8,  risk:9,  variant:'🌍 Pays buyer' },
+    { code:'DPU', name:"Delivered Place Unloaded — buyer's premises", mode:'🌐', vd:false, cost:11, risk:12, skipStep:9, variant:'🏭 Locaux buyer' },
+    { code:'DDP', name:'Delivered Duty Paid',       mode:'🌐', vd:false, cost:10, risk:11 },
+  ];
+
+  const STEP_ZONE = [null,'seller','seller','seller','seller','transit','transit','transit','transit','buyer','buyer','buyer'];
+
+  function buildHeatmap() {
+    const tbody = document.getElementById('hm-body');
+    INCS.forEach(inc => {
+      // --- COST ROW ---
+      const trCost = document.createElement('tr');
+      trCost.className = 'hm-tr hm-cost-row';
+
+      // rowspan cells only on cost row
+      const tdCode = document.createElement('td');
+      tdCode.rowSpan = 2;
+      tdCode.className = 'hm-id-cell';
+      tdCode.innerHTML = `
+        <div style="display:flex;flex-direction:column;gap:2px;padding:6px 0;">
+          <span style="font-family:'JetBrains Mono',monospace;font-size:0.85rem;font-weight:700;color:${inc.vd?'#1d4ed8':'#16a34a'}">${inc.code}</span>
+          <span style="${inc.vd?'background:#eff6ff;color:#1d4ed8':'background:#f0fdf4;color:#16a34a'};font-family:'JetBrains Mono',monospace;font-size:0.5rem;padding:1px 4px;border-radius:3px;">${inc.vd?'VD':'VA'}</span>
+          ${inc.variant ? `<span style="font-size:0.52rem;color:#64748b;line-height:1.2;max-width:64px;white-space:normal;">${inc.variant}</span>` : ''}
+        </div>`;
+
+      const tdName = document.createElement('td');
+      tdName.rowSpan = 2;
+      tdName.className = 'hm-name-cell';
+      // Show short name without variant suffix
+      const shortName = inc.name.includes('—') ? inc.name.split('—')[0].trim() : inc.name;
+      tdName.textContent = shortName;
+      if (inc.variant) {
+        tdName.style.borderLeft = '3px solid #f0fdf4';
+        tdName.style.background = '#fafffe';
+      }
+
+      const tdMode = document.createElement('td');
+      tdMode.rowSpan = 2;
+      tdMode.className = 'hm-mode-cell';
+      tdMode.style.fontSize = '1rem';
+      tdMode.textContent = inc.mode;
+
+      trCost.appendChild(tdCode);
+      trCost.appendChild(tdName);
+      trCost.appendChild(tdMode);
+
+      // row label for cost
+      const tdLblCost = document.createElement('td');
+      tdLblCost.className = 'hm-row-lbl-cell';
+      tdLblCost.innerHTML = '<span class="hm-row-label" style="color:#3b82f6">Cost €</span>';
+      trCost.appendChild(tdLblCost);
+
+      // Cost cells 1-11
+      for (let s = 1; s <= 11; s++) {
+        const td = document.createElement('td');
+        td.className = 'hm-cell';
+        const vendorPays = s <= inc.cost && !(inc.skipStep && s === inc.skipStep);
+        td.classList.add(vendorPays ? 'hm-cost' : 'hm-none');
+        if (s === inc.cost && inc.cost !== inc.risk) {
+          td.classList.add('hm-transfer-cost');
+          td.title = `Seller costs up to step ${s})`;
+        }
+        // zone border
+        if ([5,9].includes(s)) td.style.borderLeft = '2px solid #e2e8f0';
+        trCost.appendChild(td);
+      }
+      tbody.appendChild(trCost);
+
+      // --- RISK ROW ---
+      const trRisk = document.createElement('tr');
+      trRisk.className = 'hm-tr hm-risk-row';
+      if (inc.variant) trRisk.style.borderBottom = '2px dashed #bbf7d0';
+
+      const tdLblRisk = document.createElement('td');
+      tdLblRisk.className = 'hm-row-lbl-cell';
+      tdLblRisk.innerHTML = '<span class="hm-row-label" style="color:#d97706">Risk ⚡</span>';
+      trRisk.appendChild(tdLblRisk);
+
+      for (let s = 1; s <= 11; s++) {
+        const td = document.createElement('td');
+        td.className = 'hm-cell';
+        const vendorRisk = s < inc.risk && !(inc.skipStep && s === inc.skipStep);
+        // also on riskFrom itself if cost row covers it
+        const vendorRiskOnStep = s <= inc.risk - 1;
+        td.classList.add(vendorRisk ? 'hm-risk' : 'hm-none');
+        if (s === inc.risk - 1 || (inc.risk === 1 && s === 1)) {
+          td.classList.add('hm-transfer-risk');
+          td.title = `Risk transfers after step ${s}`;
+        }
+        if ([5,9].includes(s)) td.style.borderLeft = '2px solid #e2e8f0';
+        trRisk.appendChild(td);
+      }
+      tbody.appendChild(trRisk);
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', buildHeatmap);
+  // Also call immediately in case DOM is already ready
+  if (document.readyState !== 'loading') buildHeatmap();
+  </script>
+
+  <div class="card">
+    <div class="card-head">
+      <span class="card-type">Question · Table</span>
+      <span class="diff diff-med">Medium</span>
+    </div>
+    <div class="card-body">
+      <div class="q-num">Q3</div>
+      <p class="q-text">You sell <strong>CFR New York</strong>. Up to which step is the seller <em>financially responsible</em>?</p>
+      <div class="opts" id="q-t1">
+        <button class="opt" onclick="mcq('t1',this,false,'Under FOB, risk transfers on board — but CFR goes further on the cost side.')"><span class="opt-letter">A</span>Step 5 — loading on board</button>
+        <button class="opt" onclick="mcq('t1',this,true,'✓ Correct! Under CFR, the seller <strong>pays</strong> up to step 6 (main carriage included) but risk transfers to the buyer at step 5 (on board at departure). This is the key C-incoterm feature: cost ≠ risk.')"><span class="opt-letter">B</span>Coûts jusqu&#39;à ⑥, risk dès ⑤ (à bord au départ)</button>
+        <button class="opt" onclick="mcq('t1',this,false,'Under CIF the seller also pays insurance (step 7). CFR = without insurance.')"><span class="opt-letter">C</span>Step 7 — insurance included</button>
+        <button class="opt" onclick="mcq('t1',this,false,'DDP covers up to step 10, not CFR.')"><span class="opt-letter">D</span>Step 10 — up to the buyer</button>
+      </div>
+      <div class="feedback" id="t1-fb"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head">
+      <span class="card-type">Question · Table</span>
+      <span class="diff diff-hard">Hard</span>
+    </div>
+    <div class="card-body">
+      <div class="q-num">Q4</div>
+      <p class="q-text">What is the <strong>key difference</strong> between <strong>CIF</strong> and <strong>CIP</strong>?</p>
+      <div class="opts" id="q-t2">
+        <button class="opt" onclick="mcq('t2',this,false,'Both include insurance — but the coverage level differs.')"><span class="opt-letter">A</span>CIP does not include transport insurance</button>
+        <button class="opt" onclick="mcq('t2',this,false,'CIF is sea-only, CIP is multimodal — but that is not the only difference.')"><span class="opt-letter">B</span>CIF is for air transport only</button>
+        <button class="opt" onclick="mcq('t2',this,true,'✓ Perfect! CIF: minimum insurance (clause C = basic risks). CIP: all-risks (clause A = maximum cover). Also, CIF is sea-only; CIP is multimodal.')"><span class="opt-letter">C</span>CIF = minimum insurance (clause C) · CIP = all-risks (clause A) + CIP is multimodal</button>
+        <button class="opt" onclick="mcq('t2',this,false,'In both cases the seller pays the main freight.')"><span class="opt-letter">D</span>CIF includes freight, CIP does not</button>
+      </div>
+      <div class="feedback" id="t2-fb"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== MCQ ===== -->
+<section id="qcm" class="section">
+<script>
+const MCQ_DATA = [
+  { id:`m1`, q:`What does the Incoterm <strong>FOB</strong> stand for?`,
+    opts:[`Freight On Board`,`Free On Board`,`Forward On Booking`,`Full On Board`],
+    correct:1,
+    explain:[`Free On Board refers to loading goods - not freight.`,
+             `Correct! FOB = Free On Board. Risk transfers when goods are on board at the named port.`,
+             `Forward On Booking is not an Incoterm.`,
+             `Full On Board is not an Incoterm.`] },
+
+  { id:`m2`, q:`Under which Incoterm does the <strong>seller bear the minimum obligations</strong>?`,
+    opts:[`DDP`,`FOB`,`EXW`,`CIF`],
+    correct:2,
+    explain:[`DDP is the maximum obligation for the seller.`,
+             `FOB requires the seller to load goods and clear export customs.`,
+             `Correct! EXW = minimum obligation. The seller only packages goods (step 1). Everything else including export customs is the buyer's responsibility.`,
+             `CIF requires the seller to pay freight and insurance to destination.`] },
+
+  { id:`m3`, q:`You sell <strong>FOB Hamburg</strong>. Where does risk transfer to the buyer?`,
+    opts:[`At the seller's warehouse`,`At the buyer's premises in the destination country`,`When goods are on board the vessel at Hamburg port`,`On arrival at the destination port`],
+    correct:2,
+    explain:[`The seller's warehouse is EXW territory.`,
+             `The buyer's premises is the DDP transfer point.`,
+             `Correct! Under FOB, risk transfers when goods are on board at Hamburg (step 5). The seller handles export customs.`,
+             `On arrival at destination is the DAP/DDP transfer point.`] },
+
+  { id:`m4`, q:`You sell <strong>CFR Singapore</strong>. At which step does <em>risk</em> transfer to the buyer?`,
+    opts:[`Step 6 - main carriage paid to Singapore`,`Step 5 - when goods are on board at the port of departure`,`Step 8 - unloading at Singapore port`,`Step 9 - import customs in Singapore`],
+    correct:1,
+    explain:[`Step 6 is where the seller's cost obligation ends under CFR - but risk transfers earlier.`,
+             `Key concept! Under CFR, cost and risk transfer at DIFFERENT points. Risk transfers at step 5 (on board at departure), while the seller pays freight to step 6.`,
+             `Step 8 is the unloading point - not the risk transfer point under CFR.`,
+             `Step 9 is import customs, handled by the buyer.`] },
+
+  { id:`m5`, q:`You buy <strong>CIF Rotterdam</strong>. Who pays the transport insurance for the sea leg?`,
+    opts:[`The buyer`,`The seller`,`The shipping company`,`Both parties share it`],
+    correct:1,
+    explain:[`Under CIF, it is the seller who takes out the insurance - minimum cover (clause C).`,
+             `Correct! CIF = Cost, Insurance and Freight. The seller pays for insurance. Note: minimum cover (clause C). Risk still transfers to the buyer on board at departure.`,
+             `The shipping company carries the goods but does not insure them.`,
+             `Insurance is not shared in CIF.`] },
+
+  { id:`m6`, q:`What is the <strong>key difference</strong> between <strong>CIF</strong> and <strong>CIP</strong>?`,
+    opts:[`CIP does not include transport insurance`,`CIF is for air transport only`,`CIF = minimum insurance (clause C) - CIP = all-risks (clause A), multimodal`,`CIF includes freight, CIP does not`],
+    correct:2,
+    explain:[`Both CIF and CIP include insurance.`,
+             `CIF is sea-only, CIP is multimodal - but the main difference is the insurance level.`,
+             `Perfect! CIF: minimum insurance (clause C = basic risks, sea only). CIP: all-risks (clause A = maximum cover, multimodal).`,
+             `Both include freight costs.`] },
+
+  { id:`m7`, q:`You sell <strong>EXW Lyon</strong>. Do you handle export customs formalities?`,
+    opts:[`NO - under EXW the buyer handles everything from the seller's premises`,`YES - the seller always handles export customs`],
+    correct:0,
+    explain:[`Correct! EXW is the minimum obligation incoterm. The seller only packages goods (step 1). Everything else including export customs is the buyer's responsibility.`,
+             `Under EXW, the seller's only obligation is to make goods available at their premises.`] },
+
+  { id:`m8`, q:`Under which Incoterm does the <strong>seller pay import duties</strong> in the buyer's country?`,
+    opts:[`DAP`,`DPU`,`CIF`,`DDP`],
+    correct:3,
+    explain:[`Under DAP, the buyer handles import customs and duties.`,
+             `Under DPU, the buyer still handles import customs.`,
+             `Under CIF, the buyer handles import customs.`,
+             `Correct! DDP is the only incoterm where the seller covers ALL costs including import duties, VAT, and customs clearance in the buyer's country (step 9).`] },
+
+  { id:`m9`, q:`Which Incoterms are <strong>reserved for sea and inland waterway</strong> transport only?`,
+    opts:[`EXW, DDP`,`CPT, CIP`,`FAS, FOB, CFR, CIF`,`DAP, DPU`],
+    correct:2,
+    explain:[`EXW and DDP can be used for any mode of transport.`,
+             `CPT and CIP are multimodal incoterms.`,
+             `Correct! FAS, FOB, CFR and CIF are the 4 sea-only incoterms. For containerised goods, FCA, CPT or CIP are preferred.`,
+             `DAP and DPU are multimodal arrival incoterms.`] },
+
+  { id:`m10`, q:`What distinguishes <strong>DPU</strong> from <strong>DAP</strong>?`,
+    opts:[`Under DPU, the buyer organises and pays for main carriage`,`Under DPU, the seller pays import duties`,`Under DPU, the seller unloads the goods at the named place; under DAP, the buyer unloads`,`Under DPU, import customs are the seller's responsibility`],
+    correct:2,
+    explain:[`Both DAP and DPU require the seller to organise main carriage.`,
+             `Both cover import customs on the buyer's side.`,
+             `Correct! DPU = seller unloads at destination (step 11). DAP = seller delivers ready for unloading but the buyer unloads. DPU is the only incoterm where unloading is the seller's obligation.`,
+             `Both DAP and DPU exclude import duties.`] },
+
+  { id:`m11`, q:`What does <strong>THC</strong> stand for in international trade?`,
+    opts:[`Tax on Hard Currency`,`Terminal Handling Charges`,`Transport and Hull Coverage`,`Total Haulage Cost`],
+    correct:1,
+    explain:[`THC is not a currency tax.`,
+             `Correct! THC = Terminal Handling Charges - port handling fees. Amounts vary: around 50 USD for India to 350 USD for New York. They appear at steps 5 and 8.`,
+             `Transport insurance is covered by CIF/CIP, not THC.`,
+             `This is not an Incoterm definition.`] },
+
+  { id:`m12`, q:`Under <strong>FCA Paris</strong>, where does risk transfer to the buyer?`,
+    opts:[`At the destination port`,`When goods are handed over to the first carrier in Paris`,`When goods are loaded on board the vessel`,`At the buyer's warehouse`],
+    correct:1,
+    explain:[`The arrival port is relevant to FOB or CFR, not FCA.`,
+             `Correct! Under FCA, risk transfers when goods are handed to the first carrier at the named place (Paris). FCA works for all modes including containerised sea freight.`,
+             `On board the vessel is FOB, not FCA.`,
+             `The buyer's warehouse is the DDP transfer point.`] },
+
+  { id:`m13`, q:`Which Incoterm represents the <strong>maximum obligation for the seller</strong>?`,
+    opts:[`CIF`,`DAP`,`DPU`,`DDP`],
+    correct:3,
+    explain:[`CIF requires the seller to pay freight and insurance but not import duties.`,
+             `DAP excludes import duties - the buyer handles step 9.`,
+             `DPU requires unloading at destination but not import duty payment.`,
+             `Correct! DDP = maximum seller obligation. The seller covers all 10 steps including import duties and VAT in the buyer's country.`] },
+
+  { id:`m14`, q:`For <strong>containerised sea freight</strong>, why is <strong>FCA recommended over FOB</strong> by ICC 2020?`,
+    opts:[`Because FCA is always cheaper for the seller`,`Because containers are handed over at the terminal (CY), not on board - FCA reflects the actual risk transfer point`,`Because FOB does not require the seller to clear export customs`,`Because FCA allows payment in any currency`],
+    correct:1,
+    explain:[`FCA is not cheaper - the choice is about risk allocation.`,
+             `Excellent! Under FOB, risk transfers on board - but for containers, the seller loses control at the container terminal (CY), not on board. FCA names the CY as handover point, so risk transfers at the correct moment.`,
+             `FOB also requires export customs clearance by the seller.`,
+             `Both FCA and FOB can be used with any currency.`] },
+
+  { id:`m15`, q:`A French exporter ships automotive parts to a buyer in <strong>South Korea</strong>. The buyer wants to control freight costs and choose their own carrier. Which Incoterm is most appropriate?`,
+    opts:[`CIF Busan`,`DDP Busan`,`FCA or FOB - departure incoterms letting the buyer control freight`,`EXW Lyon`],
+    correct:2,
+    explain:[`CIF means the seller pays freight - the buyer cannot choose the carrier.`,
+             `DDP means the seller pays everything including import duties.`,
+             `Correct! FCA or FOB put the buyer in control from the handover point. The buyer can negotiate their own freight contract.`,
+             `EXW would require the buyer to handle export customs in France, which is complex.`] },
+
+  { id:`m16`, q:`Goods sold <strong>CFR Tokyo</strong> are damaged during the sea voyage. Who bears the loss?`,
+    opts:[`The seller - they paid the freight`,`The buyer - risk transferred when goods were on board at departure`,`The shipping company`,`The insurer - CFR includes mandatory insurance`],
+    correct:1,
+    explain:[`The seller pays freight to Tokyo but risk transferred earlier.`,
+             `Correct! This is the essential paradox of C-incoterms. Under CFR, the seller pays freight to Tokyo (step 6) but risk transferred to the BUYER when goods went on board at departure (step 5).`,
+             `The shipping company carries but does not bear commercial risk.`,
+             `Insurance is not mandatory under CFR - unlike CIF.`] },
+
+  { id:`m18`, q:`Among the following incoterms, which are <strong>reserved for sea and inland waterway transport only</strong> (cannot be used for air or road)?`,
+    opts:[`EXW, FCA, DDP`,`FAS, FOB, CFR, CIF`,`CPT, CIP, DAP, DPU, DDP`,`All incoterms can be used for all transport modes`],
+    correct:1,
+    explain:[`EXW and FCA are multimodal incoterms — they work for all modes of transport.`,
+             `Correct! FAS, FOB, CFR and CIF are the 4 sea and inland waterway only incoterms. They imply delivery alongside or on board a vessel, which only makes sense for water transport.`,
+             `CPT, CIP, DAP, DPU and DDP are all multimodal incoterms.`,
+             `Not all incoterms can be used for all modes — 4 are sea-only.`] },
+
+  { id:`m17`, q:`A German manufacturer ships equipment to Brazil under <strong>CIP Sao Paulo</strong>. Goods are damaged in a storm. Who bears the financial loss, and who claims on the insurance?`,
+    opts:[`The seller bears the loss - they paid for the insurance`,`The buyer bears the loss but claims on the all-risks insurance (clause A) arranged by the seller`,`The shipping company covers the damage`,`No one - CIP only provides minimum insurance (clause C)`],
+    correct:1,
+    explain:[`Under CIP, the seller pays for freight and insurance - but risk transfers to the buyer earlier.`,
+             `Excellent! Under CIP, risk transfers to the BUYER at the first carrier handover (step 2). The seller takes out all-risks insurance (clause A) for the buyer's benefit. So the BUYER bears the loss but claims on the seller's insurance.`,
+             `The shipping company is a carrier, not an insurer.`,
+             `CIP insurance is all-risks (clause A) - maximum cover, not minimum.`] },
+];
+
+document.addEventListener('DOMContentLoaded', function() {
+  const section = document.getElementById('qcm');
+  MCQ_DATA.forEach(function(q) {
+    const card = document.createElement('div');
+    card.className = 'card';
+    const num = MCQ_DATA.indexOf(q) + 1;
+    const diff = num <= 6 ? 'diff-easy' : num <= 12 ? 'diff-med' : 'diff-hard';
+    const diffLabel = num <= 6 ? 'Easy' : num <= 12 ? 'Medium' : 'Hard';
+    let optsHtml = q.opts.map(function(opt, i) {
+      const letter = String.fromCharCode(65 + i);
+      return '<button class="opt" data-qid="' + q.id + '" data-idx="' + i + '">' +
+             '<span class="opt-letter">' + letter + '</span>' + opt + '</button>';
+    }).join('');
+    card.innerHTML =
+      '<div class="card-head">' +
+        '<span class="card-type">MCQ</span>' +
+        '<span class="diff ' + diff + '">' + diffLabel + '</span>' +
+      '</div>' +
+      '<div class="card-body">' +
+        '<div class="q-num">Q' + num + '</div>' +
+        '<p class="q-text">' + q.q + '</p>' +
+        '<div class="opts" id="q-' + q.id + '">' + optsHtml + '</div>' +
+        '<div class="feedback" id="' + q.id + '-fb"></div>' +
+      '</div>';
+    section.appendChild(card);
+  });
+
+  section.addEventListener('click', function(e) {
+    const btn = e.target.closest('button[data-qid]');
+    if (!btn) return;
+    const qid = btn.dataset.qid;
+    if (done[qid]) return;
+    done[qid] = true;
+    const idx = parseInt(btn.dataset.idx);
+    const qdata = MCQ_DATA.find(function(q) { return q.id === qid; });
+    const correct = idx === qdata.correct;
+    btn.closest('.opts').querySelectorAll('button').forEach(function(b) { b.disabled = true; });
+    btn.classList.add(correct ? 'correct' : 'wrong');
+    const fb = document.getElementById(qid + '-fb');
+    fb.style.display = 'block';
+    fb.className = 'feedback ' + (correct ? 'ok' : 'ko');
+    fb.innerHTML = (correct ? '&#10003; ' : '&#10007; ') + qdata.explain[idx];
+    if (correct) { score += 10; updateUI(); }
+    updateProgress();
+  });
+});
+</script>
+</section>
+
+<section id="glisser" class="section">
+
+  <div class="card">
+    <div class="card-head">
+      <span class="card-type">Exercise · Incoterm classification</span>
+      <span class="diff diff-med">Interactive</span>
+    </div>
+    <div class="card-body">
+      <div class="q-num">Q18 — Drag & Drop</div>
+      <p class="q-text">Classify each incoterm into the correct category: <strong>Departure Sales</strong> (DS) or <strong>Arrival Sales</strong> (AS).</p>
+      <p class="dnd-instructions">Click on an incoterm to place it in a zone, or drag it directly.</p>
+
+      <div class="dnd-area">
+        <div>
+          <div class="dnd-pool-title">Incoterms to classify</div>
+          <div class="dnd-pool" id="pool">
+            <div class="dnd-chip" draggable="true" data-code="DDP">DDP</div>
+            <div class="dnd-chip" draggable="true" data-code="FOB">FOB</div>
+            <div class="dnd-chip" draggable="true" data-code="DAP">DAP</div>
+            <div class="dnd-chip" draggable="true" data-code="CIF">CIF</div>
+            <div class="dnd-chip" draggable="true" data-code="EXW">EXW</div>
+            <div class="dnd-chip" draggable="true" data-code="DPU">DPU</div>
+            <div class="dnd-chip" draggable="true" data-code="FCA">FCA</div>
+            <div class="dnd-chip" draggable="true" data-code="CPT">CPT</div>
+          </div>
+        </div>
+        <div>
+          <div class="dnd-zone-title">Zones de classement</div>
+          <div class="dnd-zones">
+            <div>
+              <div class="dnd-zone-label"><strong>DS</strong> — Departure Sales</div>
+              <div class="dnd-zone" id="zone-VD" data-zone="VD" ondragover="ev(event)" ondrop="drop(event)">
+                <div class="dnd-dropped" id="dropped-VD"></div>
+              </div>
+            </div>
+            <div>
+              <div class="dnd-zone-label"><strong>AS</strong> — Arrival Sales</div>
+              <div class="dnd-zone" id="zone-VA" data-zone="VA" ondragover="ev(event)" ondrop="drop(event)">
+                <div class="dnd-dropped" id="dropped-VA"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="checkDnd()">Check</button>
+        <button class="btn" onclick="resetDnd()">Reset</button>
+      </div>
+      <div class="feedback" id="dnd-fb"></div>
+    </div>
+  </div>
+
+
+  <!-- ===== PRACTICAL CASE: VITESCO ===== -->
+  <div class="card" style="margin-top:2rem">
+    <div class="card-head">
+      <span class="card-type">Practical Case · VITESCO Technologies</span>
+      <span class="diff diff-hard">Hard</span>
+    </div>
+    <div class="card-body">
+      <div class="q-num">Practical Case — Drag &amp; Drop</div>
+
+      <div style="background:#f0fdf4;border:1px solid #86efac;border-radius:8px;padding:.9rem 1.1rem;margin-bottom:1.2rem;font-size:0.86rem;line-height:1.7;color:#166534">
+        <strong>« VITESCO Technologies » practical case</strong><br>
+        Define the incotermed prices for <strong>EXW, FCA, CIP, DAP &amp; DDP</strong>.<br>
+        Seller: <strong>Bordeaux (France)</strong> · Buyer: <strong>Pune (India)</strong> · Mode: <strong>air</strong> via Mérignac → Mumbai.<br>
+        <em style="font-size:0.79rem">For each incoterm: drag ALL cumulative cost items the seller bears, type the place name, and check the total.</em>
+      </div>
+
+      <div style="display:flex;gap:1.5rem;flex-wrap:wrap;align-items:flex-start">
+
+        <!-- CHIPS (shuffled, unloading removed) -->
+        <div style="flex:0 0 265px">
+          <div style="font-size:0.7rem;font-weight:700;color:#64748b;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.5rem">Drag cost items →</div>
+          <div id="vitesco-pool" style="display:flex;flex-direction:column;gap:5px">
+            <div class="vi-chip" draggable="true" data-cost="480"   data-key="roadpune"         style="background:#dcfce7;border:1.5px solid #86efac;border-radius:6px;padding:5px 9px;font-size:0.79rem;cursor:grab;user-select:none">Road transport Mumbai/Pune · <strong>480 €</strong></div>
+            <div class="vi-chip" draggable="true" data-cost="350"   data-key="importcustoms"    style="background:#dcfce7;border:1.5px solid #86efac;border-radius:6px;padding:5px 9px;font-size:0.79rem;cursor:grab;user-select:none">Import clearance facilities · <strong>350 €</strong></div>
+            <div class="vi-chip" draggable="true" data-cost="18500" data-key="goods"            style="background:#dcfce7;border:1.5px solid #86efac;border-radius:6px;padding:5px 9px;font-size:0.79rem;cursor:grab;user-select:none">Goods · <strong>18 500 €</strong></div>
+            <div class="vi-chip" draggable="true" data-cost="85"    data-key="insurance"        style="background:#dcfce7;border:1.5px solid #86efac;border-radius:6px;padding:5px 9px;font-size:0.79rem;cursor:grab;user-select:none">Transport insurance · <strong>85 €</strong></div>
+            <div class="vi-chip" draggable="true" data-cost="310"   data-key="precarriage"      style="background:#dcfce7;border:1.5px solid #86efac;border-radius:6px;padding:5px 9px;font-size:0.79rem;cursor:grab;user-select:none">Pre-carriage Bordeaux/Mérignac · <strong>310 €</strong></div>
+            <div class="vi-chip" draggable="true" data-cost="1100"  data-key="duties"           style="background:#dcfce7;border:1.5px solid #86efac;border-radius:6px;padding:5px 9px;font-size:0.79rem;cursor:grab;user-select:none">Duties · <strong>1 100 €</strong></div>
+            <div class="vi-chip" draggable="true" data-cost="190"   data-key="exportcustoms"    style="background:#dcfce7;border:1.5px solid #86efac;border-radius:6px;padding:5px 9px;font-size:0.79rem;cursor:grab;user-select:none">Export clearance facilities · <strong>190 €</strong></div>
+            <div class="vi-chip" draggable="true" data-cost="140"   data-key="handlingmumbai"   style="background:#dcfce7;border:1.5px solid #86efac;border-radius:6px;padding:5px 9px;font-size:0.79rem;cursor:grab;user-select:none">Airport handling Mumbai · <strong>140 €</strong></div>
+            <div class="vi-chip" draggable="true" data-cost="2950"  data-key="airtransport"     style="background:#dcfce7;border:1.5px solid #86efac;border-radius:6px;padding:5px 9px;font-size:0.79rem;cursor:grab;user-select:none">Air transport Mérignac/Mumbai · <strong>2 950 €</strong></div>
+            <div class="vi-chip" draggable="true" data-cost="280"   data-key="packaging"        style="background:#dcfce7;border:1.5px solid #86efac;border-radius:6px;padding:5px 9px;font-size:0.79rem;cursor:grab;user-select:none">Packaging · <strong>280 €</strong></div>
+            <div class="vi-chip" draggable="true" data-cost="580"   data-key="handlingmerignac" style="background:#dcfce7;border:1.5px solid #86efac;border-radius:6px;padding:5px 9px;font-size:0.79rem;cursor:grab;user-select:none">Airport handling Mérignac · <strong>580 €</strong></div>
+            <div class="vi-chip" draggable="true" data-cost="120"   data-key="loading"          style="background:#dcfce7;border:1.5px solid #86efac;border-radius:6px;padding:5px 9px;font-size:0.79rem;cursor:grab;user-select:none">Loading in Bordeaux · <strong>120 €</strong></div>
+          </div>
+        </div>
+
+        <!-- TABLE -->
+        <div style="flex:1;min-width:320px;overflow-x:auto">
+          <table style="width:100%;border-collapse:collapse;font-size:0.81rem;table-layout:fixed">
+            <colgroup>
+              <col style="width:110px">
+              <col>
+              <col style="width:80px">
+            </colgroup>
+            <thead>
+              <tr>
+                <th style="background:#1e3a5f;color:white;padding:7px 8px;border:1px solid #334;font-size:0.78rem">Incoterm + Place</th>
+                <th style="background:#1565c0;color:white;padding:7px 8px;border:1px solid #334;font-size:0.78rem">Steps included in the incotermed price</th>
+                <th style="background:#1565c0;color:white;padding:7px 8px;border:1px solid #334;text-align:center;font-size:0.78rem">€ Total</th>
+              </tr>
+            </thead>
+            <tbody>
+
+              <!-- EXW: 2 rows -->
+              <tr style="height:34px">
+                <td rowspan="3" style="border:1px solid #334;background:#1e3a5f;color:white;font-weight:700;padding:6px 8px;vertical-align:middle;white-space:nowrap;font-size:0.88rem">EXW<br><input class="vi-place" data-inc="EXW" placeholder="place…" style="margin-top:3px;width:88px;font-size:0.73rem;padding:2px 5px;border-radius:4px;border:1px solid #94a3b8;background:rgba(255,255,255,0.18);color:white;placeholder-color:white"></td>
+                <td class="vi-drop-cell" data-inc="EXW" ondragover="event.preventDefault()" ondrop="dropVi(event,'EXW')" style="border:1px solid #cbd5e1;background:#f1f5f9;padding:3px 6px;height:34px;vertical-align:middle"><div class="vi-dropped"></div></td>
+                <td rowspan="3" id="vi-total-EXW" style="border:1px solid #334;background:#0f2a4a;color:#fde68a;font-weight:700;text-align:center;vertical-align:middle;font-size:0.88rem;padding:4px"></td>
+              </tr>
+              <tr style="height:34px"><td class="vi-drop-cell" data-inc="EXW" ondragover="event.preventDefault()" ondrop="dropVi(event,'EXW')" style="border:1px solid #cbd5e1;background:#f1f5f9;padding:3px 6px;height:34px;vertical-align:middle"><div class="vi-dropped"></div></td></tr>
+              <tr style="height:8px"><td style="background:#0f2a4a;border:1px solid #334"></td></tr>
+
+              <!-- FCA: 3 rows -->
+              <tr style="height:34px">
+                <td rowspan="4" style="border:1px solid #334;background:#1e3a5f;color:white;font-weight:700;padding:6px 8px;vertical-align:middle;white-space:nowrap;font-size:0.88rem">FCA<br><input class="vi-place" data-inc="FCA" placeholder="place…" style="margin-top:3px;width:88px;font-size:0.73rem;padding:2px 5px;border-radius:4px;border:1px solid #94a3b8;background:rgba(255,255,255,0.18);color:white;placeholder-color:white"></td>
+                <td class="vi-drop-cell" data-inc="FCA" ondragover="event.preventDefault()" ondrop="dropVi(event,'FCA')" style="border:1px solid #cbd5e1;background:#f1f5f9;padding:3px 6px;height:34px;vertical-align:middle"><div class="vi-dropped"></div></td>
+                <td rowspan="4" id="vi-total-FCA" style="border:1px solid #334;background:#0f2a4a;color:#fde68a;font-weight:700;text-align:center;vertical-align:middle;font-size:0.88rem;padding:4px"></td>
+              </tr>
+              <tr style="height:34px"><td class="vi-drop-cell" data-inc="FCA" ondragover="event.preventDefault()" ondrop="dropVi(event,'FCA')" style="border:1px solid #cbd5e1;background:#f1f5f9;padding:3px 6px;height:34px;vertical-align:middle"><div class="vi-dropped"></div></td></tr>
+              <tr style="height:34px"><td class="vi-drop-cell" data-inc="FCA" ondragover="event.preventDefault()" ondrop="dropVi(event,'FCA')" style="border:1px solid #cbd5e1;background:#f1f5f9;padding:3px 6px;height:34px;vertical-align:middle"><div class="vi-dropped"></div></td></tr>
+              <tr style="height:8px"><td style="background:#0f2a4a;border:1px solid #334"></td></tr>
+
+              <!-- CIP: 3 rows -->
+              <tr style="height:34px">
+                <td rowspan="4" style="border:1px solid #334;background:#1e3a5f;color:white;font-weight:700;padding:6px 8px;vertical-align:middle;white-space:nowrap;font-size:0.88rem">CIP<br><input class="vi-place" data-inc="CIP" placeholder="place…" style="margin-top:3px;width:88px;font-size:0.73rem;padding:2px 5px;border-radius:4px;border:1px solid #94a3b8;background:rgba(255,255,255,0.18);color:white;placeholder-color:white"></td>
+                <td class="vi-drop-cell" data-inc="CIP" ondragover="event.preventDefault()" ondrop="dropVi(event,'CIP')" style="border:1px solid #cbd5e1;background:#f1f5f9;padding:3px 6px;height:34px;vertical-align:middle"><div class="vi-dropped"></div></td>
+                <td rowspan="4" id="vi-total-CIP" style="border:1px solid #334;background:#0f2a4a;color:#fde68a;font-weight:700;text-align:center;vertical-align:middle;font-size:0.88rem;padding:4px"></td>
+              </tr>
+              <tr style="height:34px"><td class="vi-drop-cell" data-inc="CIP" ondragover="event.preventDefault()" ondrop="dropVi(event,'CIP')" style="border:1px solid #cbd5e1;background:#f1f5f9;padding:3px 6px;height:34px;vertical-align:middle"><div class="vi-dropped"></div></td></tr>
+              <tr style="height:34px"><td class="vi-drop-cell" data-inc="CIP" ondragover="event.preventDefault()" ondrop="dropVi(event,'CIP')" style="border:1px solid #cbd5e1;background:#f1f5f9;padding:3px 6px;height:34px;vertical-align:middle"><div class="vi-dropped"></div></td></tr>
+              <tr style="height:8px"><td style="background:#0f2a4a;border:1px solid #334"></td></tr>
+
+              <!-- DAP: 2 rows -->
+              <tr style="height:34px">
+                <td rowspan="3" style="border:1px solid #334;background:#1e3a5f;color:white;font-weight:700;padding:6px 8px;vertical-align:middle;white-space:nowrap;font-size:0.88rem">DAP<br><input class="vi-place" data-inc="DAP" placeholder="place…" style="margin-top:3px;width:88px;font-size:0.73rem;padding:2px 5px;border-radius:4px;border:1px solid #94a3b8;background:rgba(255,255,255,0.18);color:white;placeholder-color:white"></td>
+                <td class="vi-drop-cell" data-inc="DAP" ondragover="event.preventDefault()" ondrop="dropVi(event,'DAP')" style="border:1px solid #cbd5e1;background:#f1f5f9;padding:3px 6px;height:34px;vertical-align:middle"><div class="vi-dropped"></div></td>
+                <td rowspan="3" id="vi-total-DAP" style="border:1px solid #334;background:#0f2a4a;color:#fde68a;font-weight:700;text-align:center;vertical-align:middle;font-size:0.88rem;padding:4px"></td>
+              </tr>
+              <tr style="height:34px"><td class="vi-drop-cell" data-inc="DAP" ondragover="event.preventDefault()" ondrop="dropVi(event,'DAP')" style="border:1px solid #cbd5e1;background:#f1f5f9;padding:3px 6px;height:34px;vertical-align:middle"><div class="vi-dropped"></div></td></tr>
+              <tr style="height:8px"><td style="background:#0f2a4a;border:1px solid #334"></td></tr>
+
+              <!-- DDP: 2 rows -->
+              <tr style="height:34px">
+                <td rowspan="3" style="border:1px solid #334;background:#1e3a5f;color:white;font-weight:700;padding:6px 8px;vertical-align:middle;white-space:nowrap;font-size:0.88rem">DDP<br><input class="vi-place" data-inc="DDP" placeholder="place…" style="margin-top:3px;width:88px;font-size:0.73rem;padding:2px 5px;border-radius:4px;border:1px solid #94a3b8;background:rgba(255,255,255,0.18);color:white;placeholder-color:white"></td>
+                <td class="vi-drop-cell" data-inc="DDP" ondragover="event.preventDefault()" ondrop="dropVi(event,'DDP')" style="border:1px solid #cbd5e1;background:#f1f5f9;padding:3px 6px;height:34px;vertical-align:middle"><div class="vi-dropped"></div></td>
+                <td rowspan="3" id="vi-total-DDP" style="border:1px solid #334;background:#0f2a4a;color:#fde68a;font-weight:700;text-align:center;vertical-align:middle;font-size:0.88rem;padding:4px"></td>
+              </tr>
+              <tr style="height:34px"><td class="vi-drop-cell" data-inc="DDP" ondragover="event.preventDefault()" ondrop="dropVi(event,'DDP')" style="border:1px solid #cbd5e1;background:#f1f5f9;padding:3px 6px;height:34px;vertical-align:middle"><div class="vi-dropped"></div></td></tr>
+              <tr style="height:8px"><td style="background:#0f2a4a;border:1px solid #334"></td></tr>
+
+            </tbody>
+          </table>
+
+          <div style="margin-top:.8rem;display:flex;gap:.6rem;flex-wrap:wrap">
+            <button class="btn btn-primary" onclick="checkVi()">✓ Check answers</button>
+            <button class="btn" onclick="resetVi()">↺ Reset</button>
+            <button class="btn" onclick="revealVi()" style="background:#f0fdf4;border-color:#86efac;color:#166534">👁 Show solution</button>
+          </div>
+          <div id="vi-fb" class="feedback" style="display:none;margin-top:.8rem"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+// EXW  = goods + packaging                                          = 18780
+// FCA  = EXW  + loading + precarriage + exportcustoms              = 19400
+// CIP  = FCA  + handlingmerignac + airtransport + insurance        = 23015
+// DAP  = CIP  + handlingmumbai + roadpune                          = 23635
+// DDP  = DAP  + importcustoms + duties                             = 25085
+
+const VI_CORRECT = {
+  EXW: ['goods','packaging'],
+  FCA: ['loading','precarriage','exportcustoms'],
+  CIP: ['handlingmerignac','airtransport','insurance'],
+  DAP: ['handlingmumbai','roadpune'],
+  DDP: ['importcustoms','duties'],
+};
+const VI_TOTALS = { EXW:18780, FCA:19400, CIP:23015, DAP:23635, DDP:25085 };
+const VI_PLACES = { EXW:'Bordeaux', FCA:'Merignac', CIP:'Mumbai', DAP:'Pune', DDP:'Pune' };
+const VI_PLACES_DISPLAY = { EXW:'Bordeaux', FCA:'Mérignac', CIP:'Mumbai', DAP:'Pune', DDP:'Pune' };
+const VI_INCS   = ['EXW','FCA','CIP','DAP','DDP'];
+
+const viDropped = { EXW:[], FCA:[], CIP:[], DAP:[], DDP:[] };
+let viDrag = null;
+
+document.getElementById('vitesco-pool').addEventListener('dragstart', function(e) {
+  const chip = e.target.closest('.vi-chip');
+  if (chip) { viDrag = chip; e.dataTransfer.effectAllowed = 'move'; }
+});
+
+function dropVi(e, inc) {
+  e.preventDefault();
+  if (!viDrag) return;
+  const key = viDrag.dataset.key;
+  VI_INCS.forEach(function(k) {
+    const i = viDropped[k].indexOf(key);
+    if (i > -1) viDropped[k].splice(i, 1);
+  });
+  if (!viDropped[inc].includes(key)) viDropped[inc].push(key);
+  // Place in first empty drop cell for this incoterm
+  const cells = document.querySelectorAll('.vi-drop-cell[data-inc="' + inc + '"]');
+  let placed = false;
+  cells.forEach(function(cell) {
+    if (!placed && cell.querySelector('.vi-dropped').children.length === 0) {
+      cell.querySelector('.vi-dropped').appendChild(viDrag);
+      placed = true;
+    }
+  });
+  if (!placed) cells[cells.length-1].querySelector('.vi-dropped').appendChild(viDrag);
+  viDrag = null;
+  updateViTotals();
+}
+
+function updateViTotals() {
+  // Totals are cumulative: each incoterm total = sum of ALL chips placed up to and including it
+  const allKeys = [];
+  VI_INCS.forEach(function(inc) {
+    viDropped[inc].forEach(function(k) { if (!allKeys.includes(k)) allKeys.push(k); });
+    // compute running total of all chips assigned so far
+  });
+  // Per-incoterm total = sum of chips in that incoterm's own rows only (not cumulative display)
+  // But display the CUMULATIVE price in the total cell
+  let cumCost = 0;
+  const costs = {};
+  document.querySelectorAll('.vi-chip').forEach(function(chip) { costs[chip.dataset.key] = parseInt(chip.dataset.cost); });
+  VI_INCS.forEach(function(inc) {
+    const incCost = viDropped[inc].reduce(function(s,k){ return s+(costs[k]||0); },0);
+    cumCost += incCost;
+    const cell = document.getElementById('vi-total-' + inc);
+    if (cell) cell.textContent = cumCost > 0 ? cumCost.toLocaleString('fr-FR') + ' €' : '';
+  });
+}
+
+function checkVi() {
+  let allOk = true;
+  let msg = '<strong>Results:</strong><br>';
+  const costs = {};
+  document.querySelectorAll('.vi-chip').forEach(function(chip) { costs[chip.dataset.key] = parseInt(chip.dataset.cost); });
+  let cumCost = 0;
+
+  VI_INCS.forEach(function(inc) {
+    const placed  = viDropped[inc];
+    const correct = VI_CORRECT[inc];
+    const missing = correct.filter(function(k){ return !placed.includes(k); });
+    const extra   = placed.filter(function(k){ return !correct.includes(k); });
+    cumCost += placed.reduce(function(s,k){ return s+(costs[k]||0); },0);
+    const placeEl  = document.querySelector('.vi-place[data-inc="' + inc + '"]');
+    const placeVal = placeEl ? placeEl.value.trim().toLowerCase().replace(/[éè]/g,'e') : '';
+    const placeOk  = placeVal === VI_PLACES[inc].toLowerCase();
+    const costOk   = missing.length === 0 && extra.length === 0;
+
+    if (costOk && placeOk) {
+      msg += '✓ <strong>' + inc + ' ' + VI_PLACES_DISPLAY[inc] + '</strong>: correct — cumulative total ' + VI_TOTALS[inc].toLocaleString('fr-FR') + ' €<br>';
+    } else {
+      allOk = false;
+      msg += '✗ <strong>' + inc + '</strong>: ';
+      if (!placeOk) msg += 'expected place <em>' + VI_PLACES_DISPLAY[inc] + '</em> · ';
+      if (missing.length) msg += 'missing: ' + missing.join(', ') + ' · ';
+      if (extra.length)   msg += 'extra: '   + extra.join(', ')   + ' · ';
+      msg += 'cumulative total should be ' + VI_TOTALS[inc].toLocaleString('fr-FR') + ' €<br>';
+    }
+  });
+
+  const fb = document.getElementById('vi-fb');
+  fb.style.display = 'block';
+  fb.className = 'feedback ' + (allOk ? 'ok' : 'ko');
+  fb.innerHTML = msg;
+}
+
+function resetVi() {
+  VI_INCS.forEach(function(inc) { viDropped[inc] = []; });
+  const pool = document.getElementById('vitesco-pool');
+  document.querySelectorAll('.vi-chip').forEach(function(chip) { pool.appendChild(chip); });
+  document.querySelectorAll('.vi-place').forEach(function(inp) { inp.value = ''; });
+  document.querySelectorAll('.vi-dropped').forEach(function(d) { d.innerHTML = ''; });
+  VI_INCS.forEach(function(inc) {
+    const t = document.getElementById('vi-total-' + inc);
+    if (t) t.textContent = '';
+  });
+  document.getElementById('vi-fb').style.display = 'none';
+}
+
+function revealVi() {
+  const labels = {
+    goods:'Goods 18500€', packaging:'Packaging 280€', loading:'Loading 120€',
+    precarriage:'Pre-carriage 310€', exportcustoms:'Export clearance 190€',
+    handlingmerignac:'Handling Mérignac 580€', airtransport:'Air transport 2950€',
+    insurance:'Insurance 85€', handlingmumbai:'Handling Mumbai 140€',
+    roadpune:'Road Mumbai/Pune 480€', importcustoms:'Import clearance 350€',
+    duties:'Duties 1100€'
+  };
+  const lines = [
+    'EXW Bordeaux = Goods + Packaging = <strong>18 780 €</strong>',
+    'FCA Mérignac = EXW + Loading + Pre-carriage + Export clearance = <strong>19 400 €</strong>',
+    'CIP Mumbai   = FCA + Handling Mérignac + Air transport + Insurance = <strong>23 015 €</strong>',
+    'DAP Pune     = CIP + Handling Mumbai + Road Mumbai/Pune = <strong>23 635 €</strong>',
+    'DDP Pune     = DAP + Import clearance + Duties = <strong>25 085 €</strong>',
+  ];
+  const fb = document.getElementById('vi-fb');
+  fb.style.display = 'block';
+  fb.className = 'feedback info';
+  fb.innerHTML = '<strong>Solution — cumulative incotermed prices:</strong><br>' + lines.join('<br>');
+}
+</script>
+</section>
+
+<!-- ===== CAS VALEO ===== -->
+<section id="valeo" class="section">
+
+  <div class="case-scenario">
+    <div class="case-title">🏭 Cas pratique — VALEO Écouflant</div>
+    <p style="font-size:0.88rem;color:var(--muted);line-height:1.7">Valeo est un fabricant français de pièces automobiles (phares et feux de signalisation). Basé à Écouflant, il exporte vers Singapour (destination finale : Jurong). Marchandises à haute valeur ajoutée.</p>
+    <div class="case-data">
+      <div class="case-datum"><div class="datum-key">Valeur des marchandises</div><div class="datum-val">15 000 €</div></div>
+      <div class="case-datum"><div class="datum-key">Taux de change</div><div class="datum-val">1€ = 1,15 $</div></div>
+      <div class="case-datum"><div class="datum-key">Total gross weight</div><div class="datum-val">4 500 kg</div></div>
+      <div class="case-datum"><div class="datum-key">Volume</div><div class="datum-val">18 m³</div></div>
+      <div class="case-datum"><div class="datum-key">Sea transit time</div><div class="datum-val">33 days</div></div>
+      <div class="case-datum"><div class="datum-key">Air transit time</div><div class="datum-val">2 days</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head">
+      <span class="card-type">Valeo Case · Preliminary analysis</span>
+      <span class="diff diff-med">Medium</span>
+    </div>
+    <div class="card-body">
+      <div class="q-num">Q12 — MCQ</div>
+      <p class="q-text">In this case, we calculate a <strong>DDP all-inclusive</strong> price (Delivered Duty Paid, toutes taxes comprises). What costs are included in DDP according to ICC 2020 Incoterms?</p>
+      <div class="opts" id="q-v1">
+        <button class="opt" onclick="mcq('v1',this,false,'EXW is the opposite — the buyer handles everything.')"><span class="opt-letter">A</span>Packaging and loading only</button>
+        <button class="opt" onclick="mcq('v1',this,false,'CFR stops at main carriage — not import duties or post-carriage.')"><span class="opt-letter">B</span>Main carriage + sea freight only</button>
+        <button class="opt" onclick="mcq('v1',this,true,'✓ Correct! DDP = maximum seller obligation (steps 1 to 10): packaging, loading, pre-carriage, export customs, transport, insurance, unloading, IMPORT customs (duties + VAT), post-carriage. Everything is borne by the seller.')"><span class="opt-letter">C</span>Everything to the place of destination, including import customs and local taxes (steps 1 to 10)</button>
+        <button class="opt" onclick="mcq('v1',this,false,'DPU includes unloading at destination but not import formalities — that is DDP.')"><span class="opt-letter">D</span>Everything except import duties</button>
+      </div>
+      <div class="feedback" id="v1-fb"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head">
+      <span class="card-type">Valeo Case · Open reflection</span>
+      <span class="diff diff-hard">Hard</span>
+    </div>
+    <div class="card-body">
+      <div class="q-num">Question ouverte</div>
+      <p class="q-text">Pour le cas Valeo, <strong>quel mode de transport conseilleriez-vous</strong> et pourquoi ? Réfléchissez aux critères suivants avant de répondre.</p>
+      <div class="hint-box">
+        💡 Critères à analyser : valeur des marchandises · délai (33j vs 2j) · cost total (maritime vs aérien) · nature des marchandises (haute valeur ajoutée) · risk de transit · immobilisation financière du stock
+      </div>
+      <div class="timer-row">
+        <div class="t-dot"></div>
+        <span id="t-valeo">Time spent : 0s</span>
+      </div>
+      <textarea id="open-valeo" placeholder="Rédigez votre conseil ici avec les arguments clés…" onfocus="startT('t-valeo','tv')"></textarea>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="revealOpen('open-valeo','valeo-open-fb')">Voir une réponse type</button>
+      </div>
+      <div class="feedback info" id="valeo-open-fb">
+        <strong>Éléments de réponse :</strong><br><br>
+        <strong>Arguments pour le transport AÉRIEN :</strong><br>
+        — Délai de 2 days vs 33 days : crucial pour des marchandises à haute valeur ajoutée (immobilisation de 15 000 € pendant 31 jours de moins)<br>
+        — Moindre risk de dommages (manutentions réduites)<br>
+        — Réduction du besoin en stock de sécurité<br>
+        — Marchandises de faible volume relatif (18 m³ = adapté à l'aérien)<br><br>
+        <strong>Arguments pour le transport MARITIME :</strong><br>
+        — Coût généralement inférieur pour les marchandises lourdes (4 500 kg)<br>
+        — Adapté si le délai n'est pas critique<br><br>
+        <strong>Conclusion probable :</strong> L'aérien est recommandé malgré le surcost, car la valeur élevée (15 000 €) et le délai très court (2j) justifient le cost supplémentaire — à confirmer par le calcul DDP TTC des deux options.
+      </div>
+    </div>
+  </div>
+
+</section>
+
+</main>
+
+<script>
+let score = 0;
+let done = {};
+let total = 18;
+let timers = {};
+
+function goTab(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.currentTarget.classList.add('active');
+}
+
+function mcq(id, btn, correct, explanation) {
+  if (done[id]) return;
+  done[id] = true;
+
+  btn.closest('.opts').querySelectorAll('.opt').forEach(b => b.disabled = true);
+  btn.classList.add(correct ? 'correct' : 'wrong');
+
+  const fb = document.getElementById(id + '-fb');
+  fb.style.display = 'block';
+  fb.className = 'feedback ' + (correct ? 'ok' : 'ko');
+  fb.innerHTML = explanation;
+
+  if (correct) { score += 10; updateUI(); }
+  updateProgress();
+}
+
+function updateUI() {
+  document.getElementById('scoreBig').textContent = score;
+}
+
+function updateProgress() {
+  const n = Object.keys(done).length;
+  const pct = Math.min(100, Math.round(n / total * 100));
+  document.getElementById('pFill').style.width = pct + '%';
+  document.getElementById('pCount').textContent = n + ' / ' + total;
+}
+
+// Drag and drop
+const VD_correct = ['EXW','FAS','FCA','FOB','CFR','CPT','CIF','CIP'];
+const VA_correct = ['DAP','DPU','DDP'];
+let dragging = null;
+
+document.querySelectorAll('.dnd-chip').forEach(chip => {
+  chip.addEventListener('dragstart', e => {
+    dragging = chip;
+    chip.classList.add('dragging');
+  });
+  chip.addEventListener('dragend', () => {
+    dragging = null;
+    document.querySelectorAll('.dnd-chip').forEach(c => c.classList.remove('dragging'));
+  });
+  chip.addEventListener('click', () => {
+    if (done['dnd']) return;
+    // cycle through zones on click
+    const code = chip.dataset.code;
+    const vdDropped = document.getElementById('dropped-VD');
+    const vaDropped = document.getElementById('dropped-VA');
+    const pool = document.getElementById('pool');
+
+    if (chip.parentElement === pool || chip.parentElement === vaDropped) {
+      vdDropped.appendChild(chip);
+    } else if (chip.parentElement === vdDropped) {
+      vaDropped.appendChild(chip);
+    }
+  });
+});
+
+document.querySelectorAll('.dnd-zone').forEach(zone => {
+  zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('over'); });
+  zone.addEventListener('dragleave', () => zone.classList.remove('over'));
+  zone.addEventListener('drop', e => {
+    e.preventDefault();
+    zone.classList.remove('over');
+    if (dragging && !done['dnd']) {
+      zone.querySelector('.dnd-dropped').appendChild(dragging);
+    }
+  });
+});
+
+function ev(e) { e.preventDefault(); }
+function drop(e) {
+  e.preventDefault();
+  const z = e.currentTarget;
+  z.classList.remove('over');
+  if (dragging && !done['dnd']) z.querySelector('.dnd-dropped').appendChild(dragging);
+}
+
+function checkDnd() {
+  if (done['dnd']) return;
+  const vdPlaced = [...document.getElementById('dropped-VD').querySelectorAll('.dnd-chip')].map(c => c.dataset.code);
+  const vaPlaced = [...document.getElementById('dropped-VA').querySelectorAll('.dnd-chip')].map(c => c.dataset.code);
+
+  const correctVD = vdPlaced.every(c => VD_correct.includes(c));
+  const correctVA = vaPlaced.every(c => VA_correct.includes(c));
+  const complete = vdPlaced.length + vaPlaced.length === 8;
+
+  const fb = document.getElementById('dnd-fb');
+  fb.style.display = 'block';
+
+  if (correctVD && correctVA && complete) {
+    done['dnd'] = true;
+    fb.className = 'feedback ok';
+    fb.innerHTML = '✓ Perfect ! VD (vente au départ) : EXW, FAS, FCA, FOB, CFR, CPT, CIF, CIP. VA (vente à l\'arrivée) : DAP, DPU, DDP.';
+    score += 10; updateUI();
+  } else {
+    fb.className = 'feedback ko';
+    let errs = [];
+    vdPlaced.filter(c => VA_correct.includes(c)).forEach(c => errs.push(`${c} is an Arrival Sale (AS)`));
+    vaPlaced.filter(c => VD_correct.includes(c)).forEach(c => errs.push(`${c} is a Departure Sale (DS)`));
+    fb.innerHTML = '✗ Some errors : ' + (errs.join(' · ') || 'Check your placements') + '. Try again!';
+  }
+  updateProgress();
+}
+
+function resetDnd() {
+  const pool = document.getElementById('pool');
+  document.querySelectorAll('.dnd-chip').forEach(c => pool.appendChild(c));
+  document.getElementById('dnd-fb').style.display = 'none';
+  if (done['dnd']) { delete done['dnd']; score = Math.max(0, score - 10); updateUI(); updateProgress(); }
+}
+
+function revealOpen(taId, fbId) {
+  if (done[fbId]) return;
+  done[fbId] = true;
+  document.getElementById(fbId).style.display = 'block';
+  score += 5; updateUI(); updateProgress();
+}
+
+function startT(labelId, key) {
+  if (timers[key]) return;
+  let s = 0;
+  timers[key] = setInterval(() => {
+    s++;
+    const el = document.getElementById(labelId);
+    if (el) el.textContent = `Time spent : ${s}s`;
+  }, 1000);
+}
+
+// ===== ANIMATION ENGINE =====
+
+const STEP_X = [0,72,115,150,225,315,450,450,547,655,692,825];
+const STEP_Y = [0, 148, 148, 148, 148, 148, 148, 110, 148, 148, 148, 148];
+
+const STEP_INFO = [
+  null,
+  { zone:'seller', label:'Step 1 — Packaging', desc:'The seller packages the goods. This is the only obligation under EXW.' },
+  { zone:'seller', label:'Step 2 — Loading at seller', desc:'The seller loads the goods onto the collecting vehicle. Under FCA, risk transfers here to the first carrier.' },
+  { zone:'seller', label:'Step 3 — Pre-carriage', desc:'Inland transport from the factory to the port or airport of departure.' },
+  { zone:'seller', label:'Step 4 — Export customs clearance', desc:'Export customs formalities. Borne by the seller under all incoterms except EXW.' },
+  { zone:'transit', label:'Step 5 — Loading at departure', desc:'Loading on board the vessel (or handover at the airport). Under FOB/FAS, risk transfers here. Under CFR/CIF, risk also transfers here even though costs continue.' },
+  { zone:'transit', label:'Step 6 — Main carriage', desc:'The vessel crosses the ocean (or the plane flies). Under CFR and CPT, the seller\'s cost obligations end here.' },
+  { zone:'transit', label:'Step 7 — Transport insurance', desc:'Under CIF and CIP, the seller takes out insurance. CIF = minimum cover (clause C); CIP = all-risks (clause A).' },
+  { zone:'transit', label:'Step 8 — Unloading at arrival', desc:'Unloading at the destination port or airport. Under DPU, the seller bears the unloading costs.' },
+  { zone:'buyer', label:'Step 9 — Import customs + taxes', desc:'Import duties, local VAT, customs formalities. Borne by the buyer under all incoterms except DDP.' },
+  { zone:'buyer', label:'Step 10 — Post-carriage', desc:'Inland transport from the port/airport to the final place of delivery.' },
+  { zone:'buyer', label:'Step 11 — Unloading at buyer', desc:'Final delivery and unloading at the buyer\'s premises. Maximum seller obligation under DPU.' },
+];
+
+const INC_DATA = {
+  EXW:{cost:1,risk:1}, FAS:{cost:4,risk:4}, FCA:{cost:4,risk:4}, FOB:{cost:5,risk:5},
+  CFR:{cost:6,risk:5}, CPT:{cost:6,risk:2}, CIF:{cost:7,risk:5}, CIP:{cost:7,risk:2},
+  DAP:{cost:10,risk:10,skip:9}, DPU:{cost:11,risk:11,skip:9}, DDP:{cost:10,risk:10},
+};
+
+let currentStep = 1;
+let transportMode = 'sea';
+let selectedInc = 'none';
+let isPlaying = true;
+let autoTimer = null;
+const SPEEDS = [5000, 3500, 2400, 1500, 800];
+let stepDuration = SPEEDS[2]; // default speed 3
+
+const TRUCK1_PATH = [0,10,60,100,168,255,255,255,255,255,255,255];
+const SHIP_PATH   = [325,325,325,325,325,325,375,425,460,460,460,460];
+const PLANE_PATH  = [350,350,350,350,350,350,390,430,500,500,500,500];
+const TRUCK2_PATH = [569,569,569,569,569,569,569,569,569,620,700,810];
+const TRUCK1_Y=127, SHIP_Y=140, PLANE_Y=42, TRUCK2_Y=127;
+
+function buildDots() {
+  const wrap = document.getElementById('step-dots');
+  if (!wrap) return;
+  wrap.innerHTML = '';
+  for (let s = 1; s <= 11; s++) {
+    const color = s <= 4 ? '#1565c0' : s <= 8 ? '#f59e0b' : '#16a34a';
+    const dot = document.createElement('div');
+    dot.id = 'dot' + s;
+    dot.title = 'Step ' + s;
+    dot.onclick = (function(step){ return function(){ jumpToStep(step); }; })(s);
+    dot.style.cssText = `width:10px;height:10px;border-radius:50%;background:${color};opacity:0.25;cursor:pointer;transition:all 0.25s;flex-shrink:0;`;
+    wrap.appendChild(dot);
+    if (s === 4 || s === 8) {
+      const sep = document.createElement('div');
+      sep.style.cssText = 'width:2px;height:14px;background:#e2e8f0;border-radius:1px;flex-shrink:0;';
+      wrap.appendChild(sep);
+    }
+  }
+}
+
+function updateDots(step) {
+  for (let s = 1; s <= 11; s++) {
+    const dot = document.getElementById('dot' + s);
+    if (!dot) continue;
+    dot.style.opacity = s === step ? '1' : s < step ? '0.55' : '0.25';
+    dot.style.transform = s === step ? 'scale(1.6)' : 'scale(1)';
+  }
+}
+
+function initScene() {
+  buildDots();
+  positionElement('truck1', TRUCK1_PATH[1], TRUCK1_Y);
+  positionElement('ship',   SHIP_PATH[1],   SHIP_Y);
+  positionElement('plane',  PLANE_PATH[1],  PLANE_Y);
+  positionElement('truck2', TRUCK2_PATH[1], TRUCK2_Y);
+  document.getElementById('sea-layer').style.display = '';
+  document.getElementById('ship').style.display = '';
+  document.getElementById('plane').style.display = 'none';
+  goToStep(1);
+  startLoop();
+}
+
+function positionElement(id, x, y) {
+  const el = document.getElementById(id);
+  if (el) el.setAttribute('transform', `translate(${x},${y})`);
+}
+
+function animateTo(id, x, y, dur=700) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const m = (el.getAttribute('transform')||'translate(0,0)').match(/translate\(([^,]+),([^)]+)\)/);
+  const sx = m ? parseFloat(m[1]) : 0, sy = m ? parseFloat(m[2]) : 0;
+  if (Math.abs(sx-x)<1 && Math.abs(sy-y)<1) return;
+  const t0 = performance.now();
+  (function frame(now) {
+    const t = Math.min((now-t0)/dur, 1);
+    const e = t<0.5 ? 2*t*t : -1+(4-2*t)*t;
+    el.setAttribute('transform', `translate(${(sx+(x-sx)*e).toFixed(1)},${(sy+(y-sy)*e).toFixed(1)})`);
+    if (t < 1) requestAnimationFrame(frame);
+  })(performance.now());
+}
+
+function animateTimerBar() {
+  const bar = document.getElementById('timer-bar');
+  if (!bar) return;
+  bar.style.transition = 'none';
+  bar.style.width = '0%';
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    bar.style.transition = `width ${stepDuration - 80}ms linear`;
+    bar.style.width = '100%';
+  }));
+}
+
+function startLoop() {
+  clearInterval(autoTimer);
+  animateTimerBar();
+  autoTimer = setInterval(() => {
+    goToStep(currentStep >= 11 ? 1 : currentStep + 1);
+    animateTimerBar();
+  }, stepDuration);
+}
+
+function togglePlay() {
+  isPlaying = !isPlaying;
+  const btn = document.getElementById('btn-play');
+  if (isPlaying) {
+    btn.textContent = '⏸ Pause';
+    btn.style.background = btn.style.borderColor = '#1565c0';
+    startLoop();
+  } else {
+    btn.textContent = '▶ Play';
+    btn.style.background = btn.style.borderColor = '#16a34a';
+    clearInterval(autoTimer);
+    const bar = document.getElementById('timer-bar');
+    if (bar) { bar.style.transition = 'none'; bar.style.width = '0%'; }
+  }
+}
+
+function jumpToStep(step) {
+  goToStep(step);
+  if (isPlaying) startLoop();
+}
+
+function setSpeed(val) {
+  stepDuration = SPEEDS[5 - parseInt(val)];
+  if (isPlaying) startLoop();
+}
+
+function goToStep(step) {
+  currentStep = step;
+  // Ring
+  const ring = document.getElementById('step-ring');
+  ring.setAttribute('cx', STEP_X[step]); ring.setAttribute('cy', STEP_Y[step]);
+  // Step markers
+  for (let s = 1; s <= 11; s++) {
+    const el = document.getElementById('sm'+s);
+    if (!el) continue;
+    el.setAttribute('fill', s===step ? '#ef4444' : s<=4 ? '#1565c0' : s<=8 ? '#f59e0b' : '#16a34a');
+    el.setAttribute('r', s===step ? '14' : '11');
+  }
+  // Dots
+  updateDots(step);
+  // Counter + desc
+  document.getElementById('step-counter').textContent = `Step ${step} / 11`;
+  const info = STEP_INFO[step];
+  const zc = {seller:'#1d4ed8', transit:'#92400e', buyer:'#15803d'};
+  document.getElementById('step-label-top').innerHTML = `<span style="color:${zc[info.zone]}">Zone ${info.zone === 'seller' ? 'SELLER' : info.zone === 'transit' ? 'TRANSIT' : 'BUYER'}</span>`;
+  document.getElementById('step-title-main').textContent = info.label;
+  document.getElementById('step-desc-text').textContent = info.desc;
+  // Overlays
+  if (selectedInc === 'none') {
+    document.getElementById('cost-overlay').setAttribute('width', 0);
+    document.getElementById('risk-overlay').setAttribute('width', 0);
+  } else {
+    const d = INC_DATA[selectedInc];
+    const cw = STEP_X[Math.min(step, d.cost)] + 15;
+    const rw = STEP_X[Math.min(step, d.risk)] + 15;
+    document.getElementById('cost-overlay').setAttribute('width', Math.max(0, cw));
+    document.getElementById('risk-overlay').setAttribute('width', Math.max(0, rw));
+  }
+  // Inc panel
+  const panel = document.getElementById('inc-panel');
+  if (selectedInc === 'none') { panel.style.display = 'none'; }
+  else {
+    panel.style.display = '';
+    const d = INC_DATA[selectedInc];
+    document.getElementById('inc-name-big').textContent = selectedInc;
+    document.getElementById('cost-indicator').innerHTML = step <= d.cost
+      ? `<span style="color:#2563eb">💰 Cost: <strong>seller</strong> (1–${d.cost})</span>`
+      : `<span style="color:#94a3b8">💰 Cost: buyer dès step ${d.cost+1}</span>`;
+    document.getElementById('risk-indicator').innerHTML = step <= d.risk
+      ? `<span style="color:#d97706">⚡ Risk: <strong>seller</strong> (1–${d.risk})</span>`
+      : `<span style="color:#94a3b8">⚡ Risk: buyer dès step ${d.risk+1}</span>`;
+    document.getElementById('transfer-msg').style.display = step === d.risk+1 ? '' : 'none';
+    document.getElementById('cost-msg').style.display = (step === d.cost+1 && d.cost !== d.risk) ? '' : 'none';
+  }
+  // Crane container animation at step 5
+  animateCraneContainer(step);
+
+  // Vehicles
+  animateTo('truck1', TRUCK1_PATH[step], TRUCK1_Y, 600);
+  if (transportMode === 'sea') animateTo('ship', SHIP_PATH[step], SHIP_Y, 900);
+  if (transportMode === 'air') animateTo('plane', PLANE_PATH[step], PLANE_Y, 900);
+  animateTo('truck2', TRUCK2_PATH[step], TRUCK2_Y, 600);
+}
+
+// Generic 3-phase crane animation: lift → slide → lower
+// cId=container group id, lId=cable line id
+// cableX1=cable anchor x in gantry coords
+// startX=container x at ground, targetX=container x over ship, groundY=rest Y, liftY=top Y, landY=deposit Y
+// direction: 'right' = truck→ship, 'left' = ship→quay
+function animateCrane(cId, lId, startX, targetX, groundY, liftY, landY, liftDur, slideDur, lowerDur) {
+  const container = document.getElementById(cId);
+  const cable     = document.getElementById(lId);
+  if (!container || !cable) return;
+
+  let animId = null;
+  let phase = 'lift';
+  const t0 = performance.now();
+
+  // cable x1 is fixed; we only move y2 and translate container
+  const cableX = parseFloat(cable.getAttribute('x1'));
+
+  function ease(t) { return t<0.5 ? 2*t*t : -1+(4-2*t)*t; }
+
+  function frame(now) {
+    const elapsed = now - t0;
+
+    if (phase === 'lift') {
+      const t = Math.min(elapsed / liftDur, 1);
+      const e = ease(t);
+      const cy = groundY + (liftY - groundY) * e;
+      const cx = startX;
+      container.setAttribute('transform', `translate(${cx - startX},${cy - groundY})`);
+      cable.setAttribute('x2', cableX + (cx - startX));
+      cable.setAttribute('y2', cy);
+      if (t < 1) { animId = requestAnimationFrame(frame); return; }
+      phase = 'slide';
+    }
+
+    if (phase === 'slide') {
+      const t = Math.min((elapsed - liftDur) / slideDur, 1);
+      const e = ease(t);
+      const cx = startX + (targetX - startX) * e;
+      const cy = liftY;
+      container.setAttribute('transform', `translate(${cx - startX},${liftY - groundY})`);
+      cable.setAttribute('x2', cableX + (cx - startX));
+      cable.setAttribute('y2', liftY);
+      if (t < 1) { animId = requestAnimationFrame(frame); return; }
+      phase = 'lower';
+    }
+
+    if (phase === 'lower') {
+      const t = Math.min((elapsed - liftDur - slideDur) / lowerDur, 1);
+      const e = ease(t);
+      const cy = liftY + (landY - liftY) * e;
+      const cx = targetX;
+      container.setAttribute('transform', `translate(${cx - startX},${cy - groundY})`);
+      cable.setAttribute('x2', cableX + (cx - startX));
+      cable.setAttribute('y2', cy);
+      if (t < 1) animId = requestAnimationFrame(frame);
+    }
+  }
+  animId = requestAnimationFrame(frame);
+}
+
+function resetCrane(cId, lId) {
+  const container = document.getElementById(cId);
+  const cable     = document.getElementById(lId);
+  if (container) container.setAttribute('transform', 'translate(0,0)');
+  if (cable) {
+    cable.setAttribute('x2', cable.getAttribute('x1'));
+    cable.setAttribute('y2', '74');
+    cable.setAttribute('x2', cable.getAttribute('x1'));
+  }
+}
+
+function animateCraneContainer(step) {
+  // LEFT GANTRY: step 5 — truck delivered container under left leg (x≈35 in gantry coords)
+  // Ship is parked at x=310 in scene; gantry translate=(280,28) → ship deck ≈ gantry-local x=50, y=100
+  if (step === 5) {
+    animateCrane(
+      'crane-container', 'crane-cable',
+      0,   // startX (local): container at left (under truck)
+      28,  // targetX (local): over ship deck
+      74,  // groundY: resting on ground
+      44,  // liftY: lifted to beam height
+      97,  // landY: deposited on ship deck
+      700, 900, 700  // lift / slide / lower durations (ms)
+    );
+  } else {
+    resetCrane('crane-container', 'crane-cable');
+  }
+
+  // RIGHT GANTRY: step 8 — container lifts off ship (left side of gantry) slides right onto quay
+  // Right gantry translate=(468,28); ship is on left side → startX=0, quay on right → targetX=45
+  if (step === 8) {
+    animateCrane(
+      'crane-container-r', 'crane-cable-r',
+      -14, // startX: over ship deck (left of gantry)
+      38,  // targetX: over quay (right of gantry)
+      74,  // groundY
+      44,  // liftY
+      97,  // landY
+      700, 900, 700
+    );
+  } else {
+    resetCrane('crane-container-r', 'crane-cable-r');
+  }
+}
+
+function setMode(mode) {
+  transportMode = mode;
+  document.getElementById('sea-layer').style.display = mode==='sea' ? '' : 'none';
+  document.getElementById('ship').style.display = mode==='sea' ? '' : 'none';
+  document.getElementById('plane').style.display = mode==='air' ? '' : 'none';
+  ['sea','air'].forEach(m => {
+    const b = document.getElementById('btn-'+m);
+    b.style.background = mode===m ? '#1565c0' : 'white';
+    b.style.color = mode===m ? 'white' : '#64748b';
+    b.style.borderColor = mode===m ? '#1565c0' : '#cbd5e1';
+  });
+  goToStep(currentStep);
+}
+
+function setIncoterm(val) {
+  selectedInc = val;
+  if (['FAS','FOB','CFR','CIF'].includes(val) && transportMode === 'air') setMode('sea');
+  goToStep(currentStep);
+}
+
+document.addEventListener('DOMContentLoaded', initScene);
+if (document.readyState !== 'loading') initScene();
+</script>
+</body>
+</html>
